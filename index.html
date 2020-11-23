@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,11 +25,11 @@
                 <div class="profile__info">
                     <div class="profile__info-edit">
                         <h1 class="profile__name">Жак-Ив Кусто</h1>
-                        <button class="profile__edit-button"></button>
+                        <button type="button" class="profile__edit-button"></button>
                     </div>
                     <p class="profile__description">Исследователь океана</p>
                 </div>
-                <button class="profile__add-button"></button>
+                <button type="button" class="profile__add-button"></button>
             </section>
 
             <section class="elements">
@@ -37,45 +37,44 @@
                     <img class="elements__photo" src="./images/karachaevsk.jpg" alt="Фотография храма в Карачаевске">
                     <div class="elements__photo-info">
                         <p class="elements__text">Карачаевск</p>
-                        <button class="elements__like"></button>
+                        <button type="button" class="elements__like"></button>
                     </div>
                 </div>
                 <div class="elements__item">
                     <img class="elements__photo" src="./images/elbrus.jpg" alt="Фотография горы Эльбрус издалека">
                     <div class="elements__photo-info">
                         <p class="elements__text">Гора Эльбрус</p>
-                        <button class="elements__like"></button>
+                        <button type="button" class="elements__like"></button>
                     </div>
                 </div>
                 <div class="elements__item">
                     <img class="elements__photo" src="./images/dombay.jpg" alt="Фотография гор Домбая">
                     <div class="elements__photo-info">
                         <p class="elements__text">Домбай</p>
-                        <button class="elements__like"></button>
+                        <button type="button" class="elements__like"></button>
                     </div>
                 </div>
                 <div class="elements__item">
                     <img class="elements__photo" src="./images/elbrus.jpg" alt="Фотография горы Эльбрус издалека">
                     <div class="elements__photo-info">
                         <p class="elements__text">Гора Эльбрус</p>
-                        <button class="elements__like"></button>
+                        <button type="button" class="elements__like"></button>
                     </div>
                 </div>
                 <div class="elements__item">
                     <img class="elements__photo" src="./images/dombay.jpg" alt="Фотография гор Домбая">
                     <div class="elements__photo-info">
                         <p class="elements__text">Домбай</p>
-                        <button class="elements__like"></button>
+                        <button type="button" class="elements__like"></button>
                     </div>
                 </div>
                 <div class="elements__item">
                     <img class="elements__photo" src="./images/karachaevsk.jpg" alt="Фотография храма в Карачаевске">
                     <div class="elements__photo-info">
                         <p class="elements__text">Карачаево-Черкесия</p>
-                        <button class="elements__like"></button>
+                        <button type="button" class="elements__like"></button>
                     </div>
-                </div>
-                
+                </div> 
             </section>
 
         </main>
@@ -83,6 +82,18 @@
         <footer class="footer">
             <p class = "footer__author">&copy; 2020. Пономарева Полина</p>
         </footer>
+
+        <div class="popup popup_opened">
+            <div class="popup__container">
+                <button type="button" class="popup__close-button"></button>
+                <form class="popup__form">
+                    <h2 class="popup__header">Редактировать профиль</h2>
+                    <input type="text" class="popup__name">
+                    <input type="text" class="popup__description">
+                    <button type="submit" class="popup__save-button">Сохранить</button>
+                </form>
+            </div>
+        </div>
 
     </div>
     
