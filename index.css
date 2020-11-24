@@ -76,14 +76,8 @@
 }
 
 .profile__edit-button {
-    /* сброс настроек кнопки */
     padding: 0;
-    font: inherit;
-    color: inherit;
     background-color: transparent;
-
-    /* margin-top: 9px;
-    align-self: start; */
     height: 18px;
     width: 18px;
     border: 1px solid white;
@@ -97,6 +91,10 @@
 .profile__edit-button:hover {
     opacity: 0.6;
     cursor: pointer;
+}
+
+.profile__edit-button:focus {
+    outline: none;
 }
 
 .profile__description {
@@ -114,15 +112,12 @@
 }
 
 .profile__add-button {
-    /* сброс настроек кнопки */
     padding: 0;
-    font: inherit;
-    color: inherit;
     background-color: transparent;
-
     width: 100%;
     height: 50px;
     border: 2px solid white;
+    border-radius: 2px;
     background-image: url(./images/add_button.svg);
     background-size: 16px 16px;
     background-repeat: no-repeat;
@@ -135,6 +130,10 @@
     cursor: pointer;
 }
 
+.profile__add-button:focus {
+    outline: none;
+}
+
 /* ELEMENTS */
 .elements {
     width: 100%;
@@ -143,27 +142,24 @@
     column-gap: 17px;
     row-gap: 20px;
     justify-content: center;
-
 }
 
 .elements__item {
-    height: 361px;
     width: 282px;
+    display: grid;
+    grid-template-rows: repeat(2,auto);
     border-radius: 10px;
     background-color: #FFFFFF;
     overflow: hidden;
-    display: grid;
-    grid-template-rows: auto 1fr;
-    align-items: center;
 }
 
 .elements__photo {
-    height: 282px;
-    width: 282px;
+    width: 100%;
 }
 
 .elements__photo-info {
     margin: 0 15px 0 21px;
+    padding: 25px 0;
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: center;
@@ -183,13 +179,9 @@
 }
 
 .elements__like {
-    /* сброс настроек кнопки */
     padding: 0;
-    font: inherit;
-    color: inherit;
     background-color: transparent;
     border: none;
-
     height: 18px;
     width: 21px;
     background-image: url(./images/like.svg);
@@ -200,6 +192,15 @@
 .elements__like:hover {
     opacity: 0.6;
     cursor: pointer;
+}
+
+.elements__like:active {
+    background-image: url(./images/like_active.svg);
+}
+
+.elements__like:focus {
+    outline: none;
+    background-image: url(./images/like_active.svg);
 }
 
 /* FOOTER */
@@ -226,7 +227,7 @@
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     display: none;
-    justify-content: center; /* ? */
+    justify-content: center;
     align-items: center;
 }
 
@@ -240,13 +241,9 @@
 }
 
 .popup__close-button {
-    /* сброс настроек кнопки */
     padding: 0;
-    /* font: inherit;
-    color: inherit; */
     background-color: transparent;
     border: none;
-
     margin: 0 5px 20px 0;
     height: 26px;
     width: 26px;
@@ -260,6 +257,10 @@
 .popup__close-button:hover {
     opacity: 0.6;
     cursor: pointer;
+}
+
+.popup__close-button:focus {
+    outline: none;
 }
 
 .popup__form {
@@ -282,16 +283,15 @@
     color: #000000;
 }
 
-.popup__item {
+.popup__form-item {
     margin: 0 0 30px;
-    width: calc(100% - 2*22px);
+    padding: 0;
     height: 27px;
+    width: calc(100% - 2*22px);
     border: 0;
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     box-sizing: border-box;
     background-color: transparent;
-
-
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
@@ -299,8 +299,12 @@
     color: #000000;
 }
 
-.popup__item:last-of-type {
+.popup__form-item:last-of-type {
     margin: 0;
+}
+
+.popup__form-item:focus {
+    outline: none;
 }
 
 .popup__save-button {
@@ -310,7 +314,6 @@
     width: calc(100% - 2*22px);
     background-color: #000000;
     border-radius: 2px;
-
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
@@ -325,24 +328,25 @@
     cursor: pointer;
 }
 
-@media screen and (min-width: 768px) {
+.popup__save-button:focus {
+    outline: none;
+}
 
+@media screen and (min-width: 768px) {
     /* HEADER */
     .header {
         padding-top: 45px;
         min-height: calc(74px + 45px);
-        /* width: calc(880/1280*100%); */
         width: 80%;
     }
     .header__logo{
         margin-left: 0;
-        width: 142px;
         height: 33px;
+        width: 142px;
     }
 
     /* CONTENT */
     .content {
-        /* width: calc(880/1280*100%); */
         width: 80%;
     }
     
@@ -397,7 +401,7 @@
         line-height: calc(29/24*100%);
     }
 
-    .popup__item {
+    .popup__form-item {
         width: calc(100% - 2*36px);
     }
 
@@ -411,7 +415,6 @@
 }
 
 @media screen and (min-width: 1024px) {
-
     /* PROFILE */
     .profile__name {
         font-size: 42px;
@@ -440,7 +443,6 @@
 } 
 
 @media screen and (min-width: 1280px) {
-
     /* HEADER */
     .header {
         max-width: 880px;
