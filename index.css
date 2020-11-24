@@ -7,6 +7,7 @@
     text-rendering: optimizeLegibility;
 }
 
+/* HEADER */
 .header {
     padding-top: 28px;
     min-height: calc(56px + 28px);
@@ -21,6 +22,7 @@
     align-self: flex-start;
 }
 
+/* CONTENT */
 .content {
     width: calc(100% - 2*(19px));
     display: flex;
@@ -28,6 +30,7 @@
     align-items: center;
 }
 
+/* PROFILE */
 .profile {
     width: 100%;
     padding-top: 42px;
@@ -132,6 +135,7 @@
     cursor: pointer;
 }
 
+/* ELEMENTS */
 .elements {
     width: 100%;
     display: grid;
@@ -189,6 +193,7 @@
     height: 18px;
     width: 21px;
     background-image: url(./images/like.svg);
+    background-size: cover;
     transition: opasity 0.5s ease-in;
 }
 
@@ -197,6 +202,7 @@
     cursor: pointer;
 }
 
+/* FOOTER */
 .footer {
     padding: 48px 0 36px;
     width: calc(100% - 2*(19px));
@@ -211,6 +217,7 @@
     color: #545454;
 }
 
+/* POPUP */
 .popup {
     position: fixed;
     left: 0;
@@ -235,15 +242,18 @@
 .popup__close-button {
     /* сброс настроек кнопки */
     padding: 0;
-    font: inherit;
-    color: inherit;
+    /* font: inherit;
+    color: inherit; */
     background-color: transparent;
     border: none;
 
+    margin: 0 5px 20px 0;
     height: 26px;
     width: 26px;
     align-self: flex-end;
     background-image: url(./images/close_button.svg);
+    background-size: 36.7px 36.7px;
+    background-position: center;
     transition: opasity 0.5s ease-in;
 }
 
@@ -272,9 +282,16 @@
     color: #000000;
 }
 
-.popup__name {
+.popup__item {
     margin: 0 0 30px;
     width: calc(100% - 2*22px);
+    height: 27px;
+    border: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    background-color: transparent;
+
+
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
@@ -282,19 +299,14 @@
     color: #000000;
 }
 
-.popup__description {
+.popup__item:last-of-type {
     margin: 0;
-    width: calc(100% - 2*22px);
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: calc(17/14*100%);
-    color: #000000;
 }
 
 .popup__save-button {
-    margin: 45px 25px;
+    margin: 45px 0 25px;
     padding: 14px 0 14px;
+    border: 0;
     width: calc(100% - 2*22px);
     background-color: #000000;
     border-radius: 2px;
@@ -305,9 +317,17 @@
     line-height: calc(17/14*100%);
     text-align: center;
     color: #FFFFFF;
+    transition: opasity 0.5s ease-in;
+}
+
+.popup__save-button:hover {
+    opacity: 0.8;
+    cursor: pointer;
 }
 
 @media screen and (min-width: 768px) {
+
+    /* HEADER */
     .header {
         padding-top: 45px;
         min-height: calc(74px + 45px);
@@ -320,11 +340,13 @@
         height: 33px;
     }
 
+    /* CONTENT */
     .content {
         /* width: calc(880/1280*100%); */
         width: 80%;
     }
     
+    /* PROFILE */
     .profile {
         padding-top: 40px;
         padding-bottom: 50px;
@@ -355,10 +377,42 @@
         padding: 66px 0 60px;
         width: 80%;
     }
-    
+
+    /* POPUP */
+    .popup__close-button {
+        margin: 0 -40px 0 0;
+        height: 40px;
+        width: 40px;
+        background-size: 56.6px 56.6px;
+    }
+
+    .popup__form {
+        width: 430px;
+    }
+
+    .popup__header {
+        margin: 34px 0 48px 0;
+        width: calc(100% - 2*36px);
+        font-size: 24px;
+        line-height: calc(29/24*100%);
+    }
+
+    .popup__item {
+        width: calc(100% - 2*36px);
+    }
+
+    .popup__save-button {
+        margin: 48px 0 37px;
+        width: calc(100% - 2*36px);
+        font-size: 18px;
+        line-height: calc(22/18*100%);
+    }
+        
 }
 
 @media screen and (min-width: 1024px) {
+
+    /* PROFILE */
     .profile__name {
         font-size: 42px;
         line-height: 114%;
@@ -378,6 +432,7 @@
         text-align: start;
     }
 
+    /* FOOTER */
     .footer__author {
         font-size: 18px;
         line-height: calc(22/18*100%);;
@@ -385,18 +440,23 @@
 } 
 
 @media screen and (min-width: 1280px) {
+
+    /* HEADER */
     .header {
         max-width: 880px;
     }
 
+    /* CONTENT */
     .content {
         max-width: 880px;
     }
 
+    /* ELEMENTS */
     .elements {
         grid-template-columns: repeat(3, 282px);
     }
 
+    /* FOOTER */
     .footer {
         max-width: 880px;
     }
