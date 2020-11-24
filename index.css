@@ -144,7 +144,7 @@
     justify-content: center;
 }
 
-.elements__item {
+.element {
     width: 282px;
     display: grid;
     grid-template-rows: repeat(2,auto);
@@ -153,11 +153,11 @@
     overflow: hidden;
 }
 
-.elements__photo {
+.element__photo {
     width: 100%;
 }
 
-.elements__photo-info {
+.element__photo-info {
     margin: 0 15px 0 21px;
     padding: 25px 0;
     display: grid;
@@ -165,7 +165,7 @@
     align-items: center;
 }
 
-.elements__text {
+.element__text {
     margin: 0;
     font-style: normal;
     font-style: normal;
@@ -178,7 +178,7 @@
     overflow: hidden;
 }
 
-.elements__like {
+.element__like {
     padding: 0;
     background-color: transparent;
     border: none;
@@ -189,16 +189,16 @@
     transition: opasity 0.5s ease-in;
 }
 
-.elements__like:hover {
+.element__like:hover {
     opacity: 0.6;
     cursor: pointer;
 }
 
-.elements__like:active {
+.element__like:active {
     background-image: url(./images/like_active.svg);
 }
 
-.elements__like:focus {
+.element__like:focus {
     outline: none;
     background-image: url(./images/like_active.svg);
 }
@@ -374,7 +374,7 @@
 
     .profile__add-button {
         width: 150px;
-        background-size: 22x 22px;
+        background-size: 22px 22px;
     }
 
     .footer {
