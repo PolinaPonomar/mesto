@@ -7,21 +7,20 @@
     <meta name="keywords" content="Mesto фотографии лайк">
     <meta name="author" content="Полина Пономарева">
     <meta name="author" content="Яндекс Практикум">
-    <link rel="stylesheet" href="./vendor/normalize.css">
-    <link rel="stylesheet" href="./index.css">
-    <title>сервис Mesto</title>
+    <link rel="stylesheet" href="./pages/index.css">
+    <title>Mesto</title>
 </head>
 <body>
     <div class="page">
 
         <header class="header">
-            <img class="header__logo" src="./images/logo_small.svg" alt="Логотип сайта">
+            <img class="header__logo" src="./blocks/header/__logo/logo.svg" alt="Логотип сайта">
         </header>
 
         <main class="content">
 
             <section class="profile">
-                <img class="profile__avatar" src="./images/main_photo.jpg" alt="Фото профиля">
+                <img class="profile__avatar" src="./blocks/profile/__avatar/main_photo.jpg" alt="Фото профиля">
                 <div class="profile__info">
                     <div class="profile__info-edit">
                         <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -34,42 +33,42 @@
 
             <section class="elements">
                 <div class="element">
-                    <img class="element__photo" src="./images/karachaevsk.jpg" alt="Фотография храма в Карачаевске">
+                    <img class="element__photo" src="./blocks/element/__photo/karachaevsk.jpg" alt="Фотография храма в Карачаевске">
                     <div class="element__photo-info">
                         <p class="element__text">Карачаевск</p>
                         <button type="button" class="element__like"></button>
                     </div>
                 </div>
                 <div class="element">
-                    <img class="element__photo" src="./images/elbrus.jpg" alt="Фотография горы Эльбрус издалека">
+                    <img class="element__photo" src="./blocks/element/__photo/elbrus.jpg" alt="Фотография горы Эльбрус издалека">
                     <div class="element__photo-info">
                         <p class="element__text">Гора Эльбрус</p>
                         <button type="button" class="element__like"></button>
                     </div>
                 </div>
                 <div class="element">
-                    <img class="element__photo" src="./images/dombay.jpg" alt="Фотография гор Домбая">
+                    <img class="element__photo" src="./blocks/element/__photo/dombay.jpg" alt="Фотография гор Домбая">
                     <div class="element__photo-info">
                         <p class="element__text">Домбай</p>
                         <button type="button" class="element__like"></button>
                     </div>
                 </div>
                 <div class="element">
-                    <img class="element__photo" src="./images/elbrus.jpg" alt="Фотография горы Эльбрус издалека">
+                    <img class="element__photo" src="./blocks/element/__photo/elbrus.jpg" alt="Фотография горы Эльбрус издалека">
                     <div class="element__photo-info">
                         <p class="element__text">Гора Эльбрус</p>
                         <button type="button" class="element__like"></button>
                     </div>
                 </div>
                 <div class="element">
-                    <img class="element__photo" src="./images/dombay.jpg" alt="Фотография гор Домбая">
+                    <img class="element__photo" src="./blocks/element/__photo/dombay.jpg" alt="Фотография гор Домбая">
                     <div class="element__photo-info">
                         <p class="element__text">Домбай</p>
                         <button type="button" class="element__like"></button>
                     </div>
                 </div>
                 <div class="element">
-                    <img class="element__photo" src="./images/karachaevsk.jpg" alt="Фотография храма в Карачаевске">
+                    <img class="element__photo" src="./blocks/element/__photo/karachaevsk.jpg" alt="Фотография храма в Карачаевске">
                     <div class="element__photo-info">
                         <p class="element__text">Карачаево-Черкесия</p>
                         <button type="button" class="element__like"></button>
@@ -88,8 +87,8 @@
                 <button type="button" class="popup__close-button"></button>
                 <form class="popup__form">
                     <h2 class="popup__header">Редактировать профиль</h2>
-                    <input type="text" class="popup__form-item" placeholder="Имя">
-                    <input type="text" class="popup__form-item" placeholder="О себе">
+                    <input type="text" class="popup__form-item" placeholder = "Имя">
+                    <input type="text" class="popup__form-item" placeholder = "О себе">
                     <button type="submit" class="popup__save-button">Сохранить</button>
                 </form>
             </div>
