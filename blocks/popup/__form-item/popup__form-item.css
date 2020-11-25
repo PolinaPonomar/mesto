@@ -1,7 +1,6 @@
 .popup__form-item {
     margin: 0 0 30px;
-    padding: 0;
-    height: 27px;
+    padding: 0 0 9px 0;
     width: calc(100% - 2*22px);
     border: 0;
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
