@@ -1,4 +1,4 @@
-.elements {
+.cards {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(auto-fit, 282px);
@@ -8,7 +8,7 @@
 }
 
 @media screen and (min-width: 1280px) {
-    .elements {
+    .cards {
         grid-template-columns: repeat(3, 282px);
     }
 }

@@ -37,3 +37,9 @@ function formSubmitHandler (evt) { // что происходит при отп�
 editButton.addEventListener('click',openPopup);
 popupCloseButton.addEventListener('click',closePopup);
 popupForm.addEventListener('submit', formSubmitHandler);
+
+const cardTemplate = document.querySelector('#card').content;
+console.log(cardTemplate);
+// клонируем содержимое тега template
+const card = cardTemplate.cloneNode(true);
+

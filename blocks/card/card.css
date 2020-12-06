@@ -1,4 +1,4 @@
-.element {
+.card {
     width: 282px;
     display: grid;
     grid-template-rows: repeat(2,auto);

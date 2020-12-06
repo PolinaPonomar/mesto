@@ -23,13 +23,13 @@
 @import url(../blocks/profile/__description/profile__description.css);
 @import url(../blocks/profile/__add-button/profile__add-button.css);
 
-/* секция elements */
-@import url(../blocks/elements/elements.css);
-@import url(../blocks/element/element.css);
-@import url(../blocks/element/__photo/element__photo.css);
-@import url(../blocks/element/__photo-info/element__photo-info.css);
-@import url(../blocks/element/__text/element__text.css);
-@import url(../blocks/element/__like/element__like.css);
+/* секция cards */
+@import url(../blocks/cards/cards.css);
+@import url(../blocks/card/card.css);
+@import url(../blocks/card/__photo/card__photo.css);
+@import url(../blocks/card/__photo-info/card__photo-info.css);
+@import url(../blocks/card/__text/card__text.css);
+@import url(../blocks/card/__like/card__like.css);
 
 /* footer */
 @import url(../blocks/footer/footer.css);
