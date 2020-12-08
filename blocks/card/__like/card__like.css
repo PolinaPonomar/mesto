@@ -14,11 +14,6 @@
     cursor: pointer;
 }
 
-.card__like:active {
-    background-image: url(./like_active.svg);
-}
-
 .card__like:focus {
     outline: none;
-    background-image: url(./like_active.svg);
 }

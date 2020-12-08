@@ -24,14 +24,14 @@ const initialCards = [
         alt: 'Рисунок озера в тумане под светом луны'
     },
     {
-        name: 'Розовая прогулка',
-        link: './blocks/card/__photo/pink_walk.png',
-        alt: 'Рисунок прогулки людей в поле в окружении розовых фей'
-    },
-    {
         name: 'Закат',
         link: './blocks/card/__photo/sunset.jpg',
         alt: 'Рисунок малинового заката'
+    },
+    {
+        name: 'Розовая прогулка',
+        link: './blocks/card/__photo/pink_walk.png',
+        alt: 'Рисунок прогулки людей в поле в окружении розовых фей'
     },
     // {
     //     name: 'Монстр',
@@ -58,6 +58,11 @@ const initialCards = [
         link: './blocks/card/__photo/new_Year.jpg',
         alt: 'Фотография новогодней ярмарки в огоньках'
     }
+    // {
+    //     name: 'Рождественская ярмарка',
+    //     link: './blocks/card/__photo/snowman.jpg',
+    //     alt: 'Фотография новогодней ярмарки в огоньках'
+    // }
 ];
 
 function openPopup (popup) { // что происходит при нажатии кнопки редактирования профиля
@@ -84,7 +89,7 @@ function formSubmitHandler (evt) { // что происходит при отп�
         profileDescription.textContent = popupInputDescription.value;
         // закрыть pop-up:
         closePopup(popupProfile);
-    } else if ( evt.target === popupCardsForm ) {
+    } else if ( evt.target === popupCardsForm ) { //ДОБАВЛЕНИЕ НОВОЙ КАРТОЧКИ
         // клонируем содержимое тега template
         const card = cardTemplate.cloneNode(true);
         // заполняем содержимое уникальными данными конкретной карточки
@@ -92,6 +97,11 @@ function formSubmitHandler (evt) { // что происходит при отп�
         card.querySelector('.card__text').textContent = popupInputPlaceName.value;
         card.querySelector('.card__photo').src = popupInputLink.value;
         card.querySelector('.card__photo').alt = 'Фотография с подписью: ' + popupInputPlaceName.value;
+        // добавляем возможность лайкать карточку:
+        const likeButton = card.querySelector('.card__like');
+        likeButton.addEventListener('click', function(evt) {
+            evt.target.classList.toggle('card__like_active');
+          });
         // добавляем получившуюся карточку 
         cardsPlace.prepend(card);
         // очищаем форму:
@@ -119,6 +129,11 @@ initialCards.forEach(function (item) { // проходимся по каждом
     card.querySelector('.card__text').textContent = item.name;
     card.querySelector('.card__photo').src = item.link;
     card.querySelector('.card__photo').alt = item.alt;
+    // добавляем возможность лайкать карточку:
+    const likeButton = card.querySelector('.card__like');
+    likeButton.addEventListener('click', function(evt) {
+        evt.target.classList.toggle('card__like_active');
+      });
     // добавляем получившуюся карточку 
     cardsPlace.prepend(card);
 });
