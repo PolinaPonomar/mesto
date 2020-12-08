@@ -16,7 +16,7 @@ const popupInputLink = popupCards.querySelector('.popup__form-item_value_link');
 const popupCardsForm = popupCards.querySelector('.popup__form_type_cards');
 
 const cardsPlace = document.querySelector('.cards');
-const cardTemplate = document.querySelector('#card').content;
+const cardTemplate = document.querySelector('#card-template').content;
 const initialCards = [
     {
         name: 'Волшебное озеро',
@@ -80,6 +80,15 @@ function closePopup (popup) { // что происходит при нажати
     popup.classList.remove('popup_opened');
 }
 
+function likeCard (evt) { // функция для того чтобы поставить или убрать лайк
+    evt.target.classList.toggle('card__like-button_active');
+}
+
+function deleteCard (evt) {
+    const card = evt.target.closest('.card');
+    card.remove();
+}
+
 function formSubmitHandler (evt) { // что происходит при отправке формы pop-up (нажатии на кнопку coхранить или enter)
     // отменить стандартную отправку формы:
     evt.preventDefault(); 
@@ -91,19 +100,19 @@ function formSubmitHandler (evt) { // что происходит при отп�
         closePopup(popupProfile);
     } else if ( evt.target === popupCardsForm ) { //ДОБАВЛЕНИЕ НОВОЙ КАРТОЧКИ
         // клонируем содержимое тега template
-        const card = cardTemplate.cloneNode(true);
+        const cardElement = cardTemplate.cloneNode(true);
         // заполняем содержимое уникальными данными конкретной карточки
-        console.log(popupInputPlaceName.value);
-        card.querySelector('.card__text').textContent = popupInputPlaceName.value;
-        card.querySelector('.card__photo').src = popupInputLink.value;
-        card.querySelector('.card__photo').alt = 'Фотография с подписью: ' + popupInputPlaceName.value;
+        cardElement.querySelector('.card__text').textContent = popupInputPlaceName.value;
+        cardElement.querySelector('.card__photo').src = popupInputLink.value;
+        cardElement.querySelector('.card__photo').alt = 'Фотография с подписью: ' + popupInputPlaceName.value;
         // добавляем возможность лайкать карточку:
-        const likeButton = card.querySelector('.card__like');
-        likeButton.addEventListener('click', function(evt) {
-            evt.target.classList.toggle('card__like_active');
-          });
+        const likeButton = cardElement.querySelector('.card__like-button');
+        likeButton.addEventListener('click',likeCard);
+        // добавляем возможность удалить карточку:
+        const deleteButton = cardElement.querySelector('.card__delete-button');
+        deleteButton.addEventListener('click', deleteCard);
         // добавляем получившуюся карточку 
-        cardsPlace.prepend(card);
+        cardsPlace.prepend(cardElement);
         // очищаем форму:
         popupInputPlaceName.value = '';
         popupInputLink.value = '';
@@ -124,16 +133,18 @@ popupCardsForm.addEventListener('submit', formSubmitHandler);
 
 initialCards.forEach(function (item) { // проходимся по каждому элементу массива с данными для конкретных карточек
     // клонируем содержимое тега template
-    const card = cardTemplate.cloneNode(true);
+    const cardElement = cardTemplate.cloneNode(true);
     // заполняем содержимое уникальными данными конкретной карточки
-    card.querySelector('.card__text').textContent = item.name;
-    card.querySelector('.card__photo').src = item.link;
-    card.querySelector('.card__photo').alt = item.alt;
+    cardElement.querySelector('.card__text').textContent = item.name;
+    cardElement.querySelector('.card__photo').src = item.link;
+    cardElement.querySelector('.card__photo').alt = item.alt;
     // добавляем возможность лайкать карточку:
-    const likeButton = card.querySelector('.card__like');
-    likeButton.addEventListener('click', function(evt) {
-        evt.target.classList.toggle('card__like_active');
-      });
+    const likeButton = cardElement.querySelector('.card__like-button');
+    likeButton.addEventListener('click', likeCard);
+    // добавляем возможность удалить карточку:
+    const deleteButton = cardElement.querySelector('.card__delete-button');
+    deleteButton.addEventListener('click', deleteCard);
     // добавляем получившуюся карточку 
-    cardsPlace.prepend(card);
+    cardsPlace.prepend(cardElement);
+    
 });

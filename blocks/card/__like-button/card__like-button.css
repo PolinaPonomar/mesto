@@ -1,4 +1,4 @@
-.card__like {
+.card__like-button {
     padding: 0;
     background-color: transparent;
     border: none;
@@ -9,11 +9,11 @@
     transition: opasity 0.5s ease-in;
 }
 
-.card__like:hover {
-    opacity: 0.6;
+.card__like-button:hover {
+    opacity: 0.5;
     cursor: pointer;
 }
 
-.card__like:focus {
+.card__like-button:focus {
     outline: none;
 }
