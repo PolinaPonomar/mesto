@@ -20,114 +20,17 @@
         <main class="content">
 
             <section class="profile">
-                <!-- <img class="profile__avatar" src="./blocks/profile/__avatar/main_photo.jpg" alt="Фото профиля"> -->
                 <img class="profile__avatar" src="./blocks/profile/__avatar/avatar.png" alt="Фото профиля">
                 <div class="profile__info">
                     <div class="profile__info-edit">
-                        <!-- <h1 class="profile__name">Жак-Ив Кусто</h1> -->
                         <h1 class="profile__name">Юнона Сонная</h1>
                         <button type="button" aria-label="edit" class="profile__edit-button"></button>
                     </div>
-                    <!-- <p class="profile__description">Исследователь океана</p> -->
-                    <p class="profile__description">Коллекционерша снов</p>
+                    <p class="profile__description">где я бывала во снах</p>
                 </div>
                 <button type="button" aria-label="add" class="profile__add-button"></button>
             </section>
 
-            <!-- их  -->
-            <!-- <section class="cards">
-                <article class="card">
-                    <img class="card__photo" src="./blocks/card/__photo/karachaevsk.jpg" alt="Фотография храма в Карачаевске">
-                    <div class="card__photo-info">
-                        <h2 class="card__text">Карачаевск</h2>
-                        <button type="button" aria-label="like" class="card__like"></button>
-                    </div>
-                </article>
-                <article class="card">
-                    <img class="card__photo" src="./blocks/card/__photo/elbrus.jpg" alt="Фотография горы Эльбрус издалека">
-                    <div class="card__photo-info">
-                        <h2 class="card__text">Гора Эльбрус</h2>
-                        <button type="button" aria-label="like" class="card__like"></button>
-                    </div>
-                </article>
-                <article class="card">
-                    <img class="card__photo" src="./blocks/card/__photo/dombay.jpg" alt="Фотография гор Домбая">
-                    <div class="card__photo-info">
-                        <h2 class="card__text">Домбай</h2>
-                        <button type="button" aria-label="like" class="card__like"></button>
-                    </div>
-                </article>
-                <article class="card">
-                    <img class="card__photo" src="./blocks/card/__photo/elbrus.jpg" alt="Фотография горы Эльбрус издалека">
-                    <div class="card__photo-info">
-                        <h2 class="card__text">Гора Эльбрус</h2>
-                        <button type="button" aria-label="like" class="card__like"></button>
-                    </div>
-                </article>
-                <article class="card">
-                    <img class="card__photo" src="./blocks/card/__photo/dombay.jpg" alt="Фотография гор Домбая">
-                    <div class="card__photo-info">
-                        <h2 class="card__text">Домбай</h2>
-                        <button type="button" aria-label="like" class="card__like"></button>
-                    </div>
-                </article>
-                <article class="card">
-                    <img class="card__photo" src="./blocks/card/__photo/karachaevsk.jpg" alt="Фотография храма в Карачаевске">
-                    <div class="card__photo-info">
-                        <h2 class="card__text">Карачаево-Черкесия</h2>
-                        <h2 class="card__text">Новый год</h2>
-                        <button type="button" aria-label="like" class="card__like"></button>
-                    </div>
-                </article> 
-            </section> -->
-
-            <!-- мое  -->
-            <!-- <section class="cards">
-                <article class="card">
-                    <img class="card__photo" src="./blocks/card/__photo/magic_lake.jpg" alt="Рисунок озера в тумане под светом луны">
-                    <div class="card__photo-info">
-                        <h2 class="card__text">Волшебное озеро</h2>
-                        <button type="button" aria-label="like" class="card__like"></button>
-                    </div>
-                </article>
-                <article class="card">
-                    <img class="card__photo" src="./blocks/card/__photo/sunset.jpg" alt="Рисунок малинового заката">
-                    <div class="card__photo-info">
-                        <h2 class="card__text">Закат</h2>
-                        <button type="button" aria-label="like" class="card__like"></button>
-                    </div>
-                </article>
-                <article class="card">
-                    <img class="card__photo" src="./blocks/card/__photo/monster.png" alt="Рисунок милого оранжевого монстра с клычками">
-                    <div class="card__photo-info">
-                        <h2 class="card__text">Монстр</h2>
-                        <button type="button" aria-label="like" class="card__like"></button>
-                    </div>
-                </article>
-                <article class="card">
-                    <img class="card__photo" src="./blocks/card/__photo/flower_field.jpg" alt="Фотография поляны желтых цветов под ясным небом">
-                    <div class="card__photo-info">
-                        <h2 class="card__text">Поляна цветов</h2>
-                        <button type="button" aria-label="like" class="card__like"></button>
-                    </div>
-                </article>
-                <article class="card">
-                    <img class="card__photo" src="./blocks/card/__photo/pink_walk.png" alt="Рисунок прогулки людей в поле в окружении розовых фей">
-                    <div class="card__photo-info">
-                        <h2 class="card__text">Розовая прогулка</h2>
-                        <button type="button" aria-label="like" class="card__like"></button>
-                    </div>
-                </article>
-                <article class="card">
-                    <img class="card__photo" src="./blocks/card/__photo/new_Year.jpg" alt="Фотография новогодней ярмарки в огоньках">
-                    <div class="card__photo-info">
-                        <h2 class="card__text">Новый год</h2>
-                        <button type="button" aria-label="like" class="card__like"></button>
-                    </div>
-                </article> 
-            </section> -->
-
-            
             <section class="cards">
                 <template id="card">
                     <article class="card">
@@ -163,24 +66,12 @@
                 <button type="button" aria-label="close" class="popup__close-button popup__close-button_type_cards"></button>
                 <form class="popup__form popup__form_type_cards" name="photo-info-form">
                     <h2 class="popup__header popup__header_type_cards">Новое место</h2>
-                    <input type="text" class="popup__form-item popup__form-item_type_cards" name="name" placeholder="Название">
-                    <input type="text" class="popup__form-item popup__form-item_type_cards" name="link" placeholder="Ссылка на картинку">
+                    <input type="text" class="popup__form-item popup__form-item_type_cards popup__form-item_value_place-name" name="place-name" placeholder="Название">
+                    <input type="text" class="popup__form-item popup__form-item_type_cards popup__form-item_value_link" name="link" placeholder="Ссылка на картинку">
                     <button type="submit" class="popup__save-button popup__save-button_type_cards">Создать</button>
                 </form>
             </div>
         </div>
-
-        <!-- <div class="popup">
-            <div class="popup__container">
-                <button type="button" aria-label="close" class="popup__close-button"></button>
-                <form class="popup__form" name="personal-info-form">
-                    <h2 class="popup__header">Редактировать профиль</h2>
-                    <input type="text" class="popup__form-item popup__form-item_value_name" name="name" placeholder="Имя">
-                    <input type="text" class="popup__form-item popup__form-item_value_description" name="description" placeholder="О себе">
-                    <button type="submit" class="popup__save-button">Сохранить</button>
-                </form>
-            </div>
-        </div> -->
 
     </div>
     <script src="./scripts/index.js"></script>

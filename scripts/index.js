@@ -11,6 +11,9 @@ const popupProfileForm = popupProfile.querySelector('.popup__form_type_profile')
 
 const popupCards = document.querySelector('.popup_cards');
 const closeButtonPopupCards = popupCards.querySelector('.popup__close-button_type_cards');
+const popupInputPlaceName = popupCards.querySelector('.popup__form-item_value_place-name');
+const popupInputLink = popupCards.querySelector('.popup__form-item_value_link');
+const popupCardsForm = popupCards.querySelector('.popup__form_type_cards');
 
 const cardsPlace = document.querySelector('.cards');
 const cardTemplate = document.querySelector('#card').content;
@@ -21,14 +24,29 @@ const initialCards = [
         alt: 'Рисунок озера в тумане под светом луны'
     },
     {
+        name: 'Розовая прогулка',
+        link: './blocks/card/__photo/pink_walk.png',
+        alt: 'Рисунок прогулки людей в поле в окружении розовых фей'
+    },
+    {
         name: 'Закат',
         link: './blocks/card/__photo/sunset.jpg',
         alt: 'Рисунок малинового заката'
     },
+    // {
+    //     name: 'Монстр',
+    //     link: './blocks/card/__photo/monster.png',
+    //     alt: 'Рисунок милого оранжевого монстра с клычками'
+    // },
+    // {
+    //     name: 'Дом приведений',
+    //     link: './blocks/card/__photo/monster-house.jpg',
+    //     alt: 'Рисунок темного высокого дома под огромным месяцем'
+    // },
     {
-        name: 'Монстр',
-        link: './blocks/card/__photo/monster.png',
-        alt: 'Рисунок милого оранжевого монстра с клычками'
+        name: 'Дом-приведение',
+        link: './blocks/card/__photo/house-ghost1.jpg',
+        alt: 'Рисунок темного дома на холме, освещенного луной'
     },
     {
         name: 'Поляна цветов',
@@ -36,12 +54,7 @@ const initialCards = [
         alt: 'Фотография поляны желтых цветов под ясным небом'
     },
     {
-        name: 'Розовая прогулка',
-        link: './blocks/card/__photo/pink_walk.png',
-        alt: 'Рисунок прогулки людей в поле в окружении розовых фей'
-    },
-    {
-        name: 'Новый год',
+        name: 'Рождественская ярмарка',
         link: './blocks/card/__photo/new_Year.jpg',
         alt: 'Фотография новогодней ярмарки в огоньках'
     }
@@ -65,11 +78,29 @@ function closePopup (popup) { // что происходит при нажати
 function formSubmitHandler (evt) { // что происходит при отправке формы pop-up (нажатии на кнопку coхранить или enter)
     // отменить стандартную отправку формы:
     evt.preventDefault(); 
-    // присвоить имени и описанию профиля, отображаемым на странице, значения, находящиеся в соответсвтующих графах в pop-up:
-    profileName.textContent = popupInputName.value;
-    profileDescription.textContent = popupInputDescription.value;
-    // закрыть pop-up:
-    closePopup(popupProfile);
+    if ( evt.target === popupProfileForm ) {
+        // присвоить имени и описанию профиля, отображаемым на странице, значения, находящиеся в соответсвтующих графах в pop-up:
+        profileName.textContent = popupInputName.value;
+        profileDescription.textContent = popupInputDescription.value;
+        // закрыть pop-up:
+        closePopup(popupProfile);
+    } else if ( evt.target === popupCardsForm ) {
+        // клонируем содержимое тега template
+        const card = cardTemplate.cloneNode(true);
+        // заполняем содержимое уникальными данными конкретной карточки
+        console.log(popupInputPlaceName.value);
+        card.querySelector('.card__text').textContent = popupInputPlaceName.value;
+        card.querySelector('.card__photo').src = popupInputLink.value;
+        card.querySelector('.card__photo').alt = 'Фотография с подписью: ' + popupInputPlaceName.value;
+        // добавляем получившуюся карточку 
+        cardsPlace.prepend(card);
+        // очищаем форму:
+        popupInputPlaceName.value = '';
+        popupInputLink.value = '';
+        // закрыть pop-up:
+        closePopup(popupCards);
+    }
+     
 }
 
 editButton.addEventListener('click',function () { openPopup(popupProfile) }); // подслушать и среагировать на нажатие кнопки редактировать профиль
@@ -77,6 +108,7 @@ addButton.addEventListener('click',function () { openPopup(popupCards) }); // п
 closeButtonPopupProfile.addEventListener('click', function () { closePopup(popupProfile) }); // подслушать и среагировать на нажатие кнопки закрыть pop-up для редактирования профиля
 closeButtonPopupCards.addEventListener('click', function () { closePopup(popupCards) }); // подслушать и среагировать на нажатие кнопки закрыть pop-up для добавления фотографии
 popupProfileForm.addEventListener('submit', formSubmitHandler); // подслушать и среагировать на нажатие кнопки coхранить или enter
+popupCardsForm.addEventListener('submit', formSubmitHandler);
 
 // Добавление 6-ти стартовых карточек:
 
@@ -88,5 +120,5 @@ initialCards.forEach(function (item) { // проходимся по каждом
     card.querySelector('.card__photo').src = item.link;
     card.querySelector('.card__photo').alt = item.alt;
     // добавляем получившуюся карточку 
-    cardsPlace.append(card);
+    cardsPlace.prepend(card);
 });
