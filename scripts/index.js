@@ -15,6 +15,11 @@ const popupInputPlaceName = popupCards.querySelector('.popup__form-item_value_pl
 const popupInputLink = popupCards.querySelector('.popup__form-item_value_link');
 const popupCardsForm = popupCards.querySelector('.popup__form_type_cards');
 
+const popupImage = document.querySelector('.popup_image');
+const closeButtonImage = popupImage.querySelector('.popup__close-button');
+const popupPhoto = popupImage.querySelector('.popup__photo');
+const popupPhotoName = popupImage.querySelector('.popup__photo-name');
+
 const cardsPlace = document.querySelector('.cards');
 const cardTemplate = document.querySelector('#card-template').content;
 const initialCards = [
@@ -89,6 +94,29 @@ function deleteCard (evt) {
     card.remove();
 }
 
+function fillPopupImage (cardElement) {
+    popupPhoto.src = cardElement.querySelector('.card__photo').src;
+    popupPhoto.src = cardElement.querySelector('.card__photo').alt;
+    popupPhotoName.value = cardElement.querySelector('.card__text').textContent;
+}
+
+ function createCardPossibilities (cardElement) {
+    // добавляем возможность лайкать карточку:
+    const likeButton = cardElement.querySelector('.card__like-button');
+    likeButton.addEventListener('click',likeCard);
+    // добавляем возможность удалить карточку:
+    const deleteButton = cardElement.querySelector('.card__delete-button');
+    deleteButton.addEventListener('click', deleteCard);
+    // добавляем возможность открыть карточку поп-апом:
+    const photo = cardElement.querySelector('.card__photo');
+    photo.addEventListener('click', function () {
+        fillPopupImage(cardElement);
+        openPopup(popupImage);
+     });
+    // добавляем возможность открыть карточку поп-апом:
+    closeButtonImage.addEventListener('click', function () { closePopup(popupImage) }); 
+ }
+
 function formSubmitHandler (evt) { // что происходит при отправке формы pop-up (нажатии на кнопку coхранить или enter)
     // отменить стандартную отправку формы:
     evt.preventDefault(); 
@@ -105,12 +133,8 @@ function formSubmitHandler (evt) { // что происходит при отп�
         cardElement.querySelector('.card__text').textContent = popupInputPlaceName.value;
         cardElement.querySelector('.card__photo').src = popupInputLink.value;
         cardElement.querySelector('.card__photo').alt = 'Фотография с подписью: ' + popupInputPlaceName.value;
-        // добавляем возможность лайкать карточку:
-        const likeButton = cardElement.querySelector('.card__like-button');
-        likeButton.addEventListener('click',likeCard);
-        // добавляем возможность удалить карточку:
-        const deleteButton = cardElement.querySelector('.card__delete-button');
-        deleteButton.addEventListener('click', deleteCard);
+        // добавляем карточке возможности лайка, удаления и поп-апа
+        createCardPossibilities(cardElement); 
         // добавляем получившуюся карточку 
         cardsPlace.prepend(cardElement);
         // очищаем форму:
@@ -138,12 +162,8 @@ initialCards.forEach(function (item) { // проходимся по каждом
     cardElement.querySelector('.card__text').textContent = item.name;
     cardElement.querySelector('.card__photo').src = item.link;
     cardElement.querySelector('.card__photo').alt = item.alt;
-    // добавляем возможность лайкать карточку:
-    const likeButton = cardElement.querySelector('.card__like-button');
-    likeButton.addEventListener('click', likeCard);
-    // добавляем возможность удалить карточку:
-    const deleteButton = cardElement.querySelector('.card__delete-button');
-    deleteButton.addEventListener('click', deleteCard);
+    // добавляем карточке возможности лайка, удаления и поп-апа
+    createCardPossibilities(cardElement); 
     // добавляем получившуюся карточку 
     cardsPlace.prepend(cardElement);
     
