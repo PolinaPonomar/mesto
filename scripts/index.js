@@ -3,18 +3,21 @@ const profileName = document.querySelector('.profile__name');
 const profileDescription = document.querySelector('.profile__description');
 const addButton = document.querySelector('.profile__add-button');
 
+//pop-up для редактирования профиля
 const popupProfile = document.querySelector('.popup_profile');
 const closeButtonPopupProfile = popupProfile.querySelector('.popup__close-button_type_profile');
 const popupInputName = popupProfile.querySelector('.popup__form-item_value_name');
 const popupInputDescription = popupProfile.querySelector('.popup__form-item_value_description');
 const popupProfileForm = popupProfile.querySelector('.popup__form_type_profile');
 
+//pop-up для добавления фото
 const popupCards = document.querySelector('.popup_cards');
 const closeButtonPopupCards = popupCards.querySelector('.popup__close-button_type_cards');
 const popupInputPlaceName = popupCards.querySelector('.popup__form-item_value_place-name');
 const popupInputLink = popupCards.querySelector('.popup__form-item_value_link');
 const popupCardsForm = popupCards.querySelector('.popup__form_type_cards');
 
+//pop-up для открытия фото
 const popupImage = document.querySelector('.popup_image');
 const closeButtonImage = popupImage.querySelector('.popup__close-button');
 const popupPhoto = popupImage.querySelector('.popup__photo');
@@ -55,86 +58,115 @@ const initialCards = [
     }
 ];
 
-function openPopup (popup) { // что происходит при нажатии кнопки редактирования профиля
+function openPopup (popup) { // функция: открыть pop-up
     // открыть pop-up:
     popup.classList.add('popup_opened');
+
+    // если это pop-up редактирования профиля, заполнить соответсвующие графы pop-up значениями имени и описания профиля
     if ( popup === popupProfile) {
-        // заполнить соответсвующие графы pop-up значениями имени и описания профиля:
         popupInputName.value = profileName.textContent;
         popupInputDescription.value = profileDescription.textContent;
     }
 }
 
-function closePopup (popup) { // что происходит при нажатии на кнопку закрытия pop-up
-    // закрыть pop-up:
+function closePopup (popup) { // функция: закрыть pop-up
     popup.classList.remove('popup_opened');
 }
 
-function likeCard (evt) { // функция для того чтобы поставить или убрать лайк
-    evt.target.classList.toggle('card__like-button_active');
-}
 
-function deleteCard (evt) {
-    const card = evt.target.closest('.card');
-    card.remove();
-}
-
-
- function createCardPossibilities (cardElement) {
-    // добавляем возможность лайкать карточку:
+function likeCard (cardElement) { // функция: добавить карточке возможность поставить лайк или убрать его
+    // ищем кнопку для лайка
     const likeButton = cardElement.querySelector('.card__like-button');
-    likeButton.addEventListener('click',likeCard);
-    // добавляем возможность удалить карточку:
+
+    // если на нее нажали -> сделать активной/неактивной
+    likeButton.addEventListener('click', function(evt) {
+        evt.target.classList.toggle('card__like-button_active');
+    });
+}
+
+function deleteCard (cardElement) { // функция: добавить карточке возможность удаления
+    // ищем кнопку удаления
     const deleteButton = cardElement.querySelector('.card__delete-button');
-    deleteButton.addEventListener('click', deleteCard);
-    // добавляем возможность открыть поп-ап с карточкой:
+
+    // если на нее нажали -> удалить карточку
+    deleteButton.addEventListener('click', function(evt) {
+        const card = evt.target.closest('.card');
+        card.remove();
+    }); 
+}
+
+ function createCardPopup (cardElement) { // функция: добавить карточке возможность открытия фото в pop-up
+    // найти фото с карточки
     const photo = cardElement.querySelector('.card__photo');
+    // найти подпись с карточки
     const photoText = cardElement.querySelector('.card__text');
+    // если нажали на фото карточки -> в поп-ап для открытия фото добавить фото, текст и открыть этот поп-ап
     photo.addEventListener('click', function (evt) {
         popupPhoto.src = evt.target.src;
         popupPhoto.alt = evt.target.alt;
         popupPhotoName.textContent = photoText.textContent;
         openPopup(popupImage);
      });
-    // добавляем возможность закрыть поп-апом с карточкой:
+
+    // если нажали на кнопку закрыть поп-ап для открытия фото -> закрыть его
     closeButtonImage.addEventListener('click', function () { closePopup(popupImage) }); 
  }
 
-function formSubmitHandler (evt) { // что происходит при отправке формы pop-up (нажатии на кнопку coхранить или enter)
+
+function formSubmitHandler (evt) { // функция: отправить форму (используется при нажатиии enter или соответсвующих кнопок)
     // отменить стандартную отправку формы:
     evt.preventDefault(); 
+
+    // если это pop-up редактирования профиля:
     if ( evt.target === popupProfileForm ) {
         // присвоить имени и описанию профиля, отображаемым на странице, значения, находящиеся в соответсвтующих графах в pop-up:
         profileName.textContent = popupInputName.value;
         profileDescription.textContent = popupInputDescription.value;
         // закрыть pop-up:
         closePopup(popupProfile);
-    } else if ( evt.target === popupCardsForm ) { //ДОБАВЛЕНИЕ НОВОЙ КАРТОЧКИ
+
+    // если это pop-up добавления новой карточки:  
+    } else if ( evt.target === popupCardsForm ) {
         // клонируем содержимое тега template
         const cardElement = cardTemplate.cloneNode(true);
         // заполняем содержимое уникальными данными конкретной карточки
         cardElement.querySelector('.card__text').textContent = popupInputPlaceName.value;
         cardElement.querySelector('.card__photo').src = popupInputLink.value;
         cardElement.querySelector('.card__photo').alt = 'Фотография с подписью: ' + popupInputPlaceName.value;
-        // добавляем карточке возможности лайка, удаления и поп-апа
-        createCardPossibilities(cardElement); 
+        // добавляем карточке возможности лайка, удаления и открытия фото в поп-апе
+        likeCard (cardElement);
+        deleteCard (cardElement);
+        createCardPopup(cardElement); 
         // добавляем получившуюся карточку 
         cardsPlace.prepend(cardElement);
-        // очищаем форму:
+        // очищаем форму
         popupInputPlaceName.value = '';
         popupInputLink.value = '';
         // закрыть pop-up:
         closePopup(popupCards);
-    }
-     
+    } 
 }
 
-editButton.addEventListener('click',function () { openPopup(popupProfile) }); // подслушать и среагировать на нажатие кнопки редактировать профиль
-addButton.addEventListener('click',function () { openPopup(popupCards) }); // подслушать и среагировать на нажатие кнопки добавить фотографии
-closeButtonPopupProfile.addEventListener('click', function () { closePopup(popupProfile) }); // подслушать и среагировать на нажатие кнопки закрыть pop-up для редактирования профиля
-closeButtonPopupCards.addEventListener('click', function () { closePopup(popupCards) }); // подслушать и среагировать на нажатие кнопки закрыть pop-up для добавления фотографии
-popupProfileForm.addEventListener('submit', formSubmitHandler); // подслушать и среагировать на нажатие кнопки coхранить или enter
+
+// если юзер нажал на кнопку редактировать профиль -> открыть соответсвующий pop-up редактирования профиля
+editButton.addEventListener('click',function () { openPopup(popupProfile) });
+
+// если юзер нажал на enter или кнопку Сохранить-> отправить форму
+popupProfileForm.addEventListener('submit', formSubmitHandler);
+
+// если юзер нажал на кнопку закрыть pop-up редактирования профиля-> закрыть его
+closeButtonPopupProfile.addEventListener('click', function () { closePopup(popupProfile) });
+
+
+// если юзер нажал на кнопку добавить фото -> открыть соответсвующий pop-up добавления фотографии
+addButton.addEventListener('click',function () { openPopup(popupCards) }); 
+
+// если юзер нажал на кнопку закрыть pop-up добавления фотографии-> закрыть его
+closeButtonPopupCards.addEventListener('click', function () { closePopup(popupCards) });
+
+// если юзер нажал на enter или кнопку Создать-> отправить форму
 popupCardsForm.addEventListener('submit', formSubmitHandler);
+
 
 // Добавление 6-ти стартовых карточек:
 
@@ -145,8 +177,10 @@ initialCards.forEach(function (item) { // проходимся по каждом
     cardElement.querySelector('.card__text').textContent = item.name;
     cardElement.querySelector('.card__photo').src = item.link;
     cardElement.querySelector('.card__photo').alt = item.alt;
-    // добавляем карточке возможности лайка, удаления и открытия через поп-ап
-    createCardPossibilities(cardElement); 
+    //добавляем карточке возможности лайка, удаления и открытия фото в поп-апе
+    likeCard (cardElement);
+    deleteCard (cardElement);
+    createCardPopup(cardElement); 
     // добавляем получившуюся карточку 
     cardsPlace.prepend(cardElement);
     
