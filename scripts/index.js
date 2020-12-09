@@ -29,7 +29,7 @@ const initialCards = [
         alt: 'Рисунок озера в тумане под светом луны'
     },
     {
-        name: 'Закат',
+        name: 'Склон на закате',
         link: './blocks/card/__photo/sunset.jpg',
         alt: 'Рисунок малинового заката'
     },
@@ -50,7 +50,7 @@ const initialCards = [
     // },
     {
         name: 'Дом-приведение',
-        link: './blocks/card/__photo/house-ghost1.jpg',
+        link: './blocks/card/__photo/house-ghost.jpg',
         alt: 'Рисунок темного дома на холме, освещенного луной'
     },
     {
@@ -94,11 +94,6 @@ function deleteCard (evt) {
     card.remove();
 }
 
-function fillPopupImage (cardElement) {
-    popupPhoto.src = cardElement.querySelector('.card__photo').src;
-    popupPhoto.src = cardElement.querySelector('.card__photo').alt;
-    popupPhotoName.value = cardElement.querySelector('.card__text').textContent;
-}
 
  function createCardPossibilities (cardElement) {
     // добавляем возможность лайкать карточку:
@@ -107,13 +102,16 @@ function fillPopupImage (cardElement) {
     // добавляем возможность удалить карточку:
     const deleteButton = cardElement.querySelector('.card__delete-button');
     deleteButton.addEventListener('click', deleteCard);
-    // добавляем возможность открыть карточку поп-апом:
+    // добавляем возможность открыть поп-ап с карточкой:
     const photo = cardElement.querySelector('.card__photo');
-    photo.addEventListener('click', function () {
-        fillPopupImage(cardElement);
+    const photoText = cardElement.querySelector('.card__text');
+    photo.addEventListener('click', function (evt) {
+        popupPhoto.src = evt.target.src;
+        popupPhoto.alt = evt.target.alt;
+        popupPhotoName.textContent = photoText.textContent;
         openPopup(popupImage);
      });
-    // добавляем возможность открыть карточку поп-апом:
+    // добавляем возможность закрыть поп-апом с карточкой:
     closeButtonImage.addEventListener('click', function () { closePopup(popupImage) }); 
  }
 
