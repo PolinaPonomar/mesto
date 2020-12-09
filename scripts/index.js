@@ -38,16 +38,6 @@ const initialCards = [
         link: './blocks/card/__photo/pink_walk.png',
         alt: 'Рисунок прогулки людей в поле в окружении розовых фей'
     },
-    // {
-    //     name: 'Монстр',
-    //     link: './blocks/card/__photo/monster.png',
-    //     alt: 'Рисунок милого оранжевого монстра с клычками'
-    // },
-    // {
-    //     name: 'Дом приведений',
-    //     link: './blocks/card/__photo/monster-house.jpg',
-    //     alt: 'Рисунок темного высокого дома под огромным месяцем'
-    // },
     {
         name: 'Дом-приведение',
         link: './blocks/card/__photo/house-ghost.jpg',
@@ -63,11 +53,6 @@ const initialCards = [
         link: './blocks/card/__photo/new_Year.jpg',
         alt: 'Фотография новогодней ярмарки в огоньках'
     }
-    // {
-    //     name: 'Рождественская ярмарка',
-    //     link: './blocks/card/__photo/snowman.jpg',
-    //     alt: 'Фотография новогодней ярмарки в огоньках'
-    // }
 ];
 
 function openPopup (popup) { // что происходит при нажатии кнопки редактирования профиля
@@ -160,7 +145,7 @@ initialCards.forEach(function (item) { // проходимся по каждом
     cardElement.querySelector('.card__text').textContent = item.name;
     cardElement.querySelector('.card__photo').src = item.link;
     cardElement.querySelector('.card__photo').alt = item.alt;
-    // добавляем карточке возможности лайка, удаления и поп-апа
+    // добавляем карточке возможности лайка, удаления и открытия через поп-ап
     createCardPossibilities(cardElement); 
     // добавляем получившуюся карточку 
     cardsPlace.prepend(cardElement);
