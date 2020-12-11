@@ -32,16 +32,7 @@
             </section>
 
             <section class="cards">
-                <template id="card-template">
-                    <article class="card">
-                        <img class="card__photo" src="ссылка на фото" alt="описание фотографии">
-                        <div class="card__photo-info">
-                            <h2 class="card__text">подпись к фото</h2>
-                            <button type="button" aria-label="like" class="card__like-button"></button>
-                        </div>
-                        <button type="button" aria-label="delete" class="card__delete-button"></button>
-                    </article>
-                </template>
+                
             </section>
 
         </main>
@@ -68,7 +59,7 @@
                 <form class="popup__form popup__form_type_cards" name="photo-info-form">
                     <h2 class="popup__header popup__header_type_cards">Новое место</h2>
                     <input type="text" class="popup__form-item popup__form-item_type_cards popup__form-item_value_place-name" name="place-name" placeholder="Название">
-                    <input type="text" class="popup__form-item popup__form-item_type_cards popup__form-item_value_link" name="link" placeholder="Ссылка на картинку">
+                    <input type="url" class="popup__form-item popup__form-item_type_cards popup__form-item_value_link" required name="link" placeholder="Ссылка на картинку">
                     <button type="submit" class="popup__save-button popup__save-button_type_cards">Создать</button>
                 </form>
             </div>
@@ -81,6 +72,17 @@
                 <p class="popup__photo-name">подпись к фото</p>
             </div>
         </div>
+
+        <template id="card-template">
+            <article class="card">
+                <img class="card__photo" src="ссылка на фото" alt="описание фотографии">
+                <div class="card__photo-info">
+                    <h2 class="card__text">подпись к фото</h2>
+                    <button type="button" aria-label="like" class="card__like-button"></button>
+                </div>
+                <button type="button" aria-label="delete" class="card__delete-button"></button>
+            </article>
+        </template>
 
 
 
