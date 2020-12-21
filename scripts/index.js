@@ -148,6 +148,9 @@ function cardsFormSubmitHandler (evt) { // функция: отправить ф
     closePopup(popupCards);
 }
 
+// подключим валидацию всем формам поп-апов (функция и ее аргумент описаны в файле validate.js)
+enableValidation(validationConfig);
+
 
 // если юзер нажал на кнопку редактировать профиль -> открыть соответсвующий pop-up редактирования профиля
 editButton.addEventListener('click',function () {
@@ -156,21 +159,39 @@ editButton.addEventListener('click',function () {
     //заполнить соответсвующие графы pop-up значениями имени и описания профиля
     popupInputName.value = profileName.textContent;
     popupInputDescription.value = profileDescription.textContent;
+    // проверить, валидна ли форма на момент открытия (функция и ее аргумент описаны в файле validate.js)
+    doStartValidity(popupProfileForm,validationConfig);
 });
-
 
 // если юзер нажал на enter или кнопку Сохранить-> отправить форму
 popupProfileForm.addEventListener('submit', profileFormSubmitHandler);
+
 // если юзер нажал на кнопку закрыть pop-up редактирования профиля-> закрыть его
-closeButtonPopupProfile.addEventListener('click', function () { closePopup(popupProfile) });
+closeButtonPopupProfile.addEventListener('click', function () { 
+    closePopup(popupProfile);
+    // сбросить валидацию (функция и ее аргумент описаны в файле validate.js)
+    resetPassedValidation(popupProfile, validationConfig);
+ });
 
 
 // если юзер нажал на кнопку добавить фото -> открыть соответсвующий pop-up для добавления карточки
-addButton.addEventListener('click',function () { openPopup(popupCards) });
+addButton.addEventListener('click',function () { 
+    openPopup(popupCards);
+    // проверить, валидна ли форма на момент открытия (функция и ее аргумент описаны в файле validate.js)
+    doStartValidity(popupCardsForm, validationConfig);
+});
+
 // если юзер нажал на enter или кнопку Создать-> отправить форму
 popupCardsForm.addEventListener('submit', cardsFormSubmitHandler);
+
 // если юзер нажал на кнопку закрыть pop-up для добавления карточки -> закрыть его
-closeButtonPopupCards.addEventListener('click', function () { closePopup(popupCards) });
+closeButtonPopupCards.addEventListener('click', function () { 
+    closePopup(popupCards);
+    // сбросить валидацию (функция и ее аргумент описаны в файле validate.js)
+    resetPassedValidation(popupCards, validationConfig);
+    // очистить поля формы
+    popupCardsForm.reset();
+ });
 
 
 // если юзер нажал на кнопку закрыть поп-ап для открытия фото -> закрыть его
@@ -178,12 +199,9 @@ closeButtonImage.addEventListener('click', function () { closePopup(popupImage) 
 
 
 // Добавление 6-ти стартовых карточек:
-
 initialCards.forEach(function (item) { // проходимся по каждому элементу массива с данными для конкретных карточек
     //создаем новую карточку на основании данных карточки
     const card = createCard(item.name, item.link, item.alt);
     // добавляем получившуюся карточку 
     addCard(card);
 });
-
-enableValidation();
