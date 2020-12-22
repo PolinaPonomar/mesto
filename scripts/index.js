@@ -25,47 +25,12 @@ const popupPhotoName = popupImage.querySelector('.popup__photo-name');
 
 const cardsPlace = document.querySelector('.cards');
 const cardTemplate = document.querySelector('#card-template').content;
-const initialCards = [
-    {
-        name: 'Волшебное озеро',
-        link: './blocks/card/__photo/magic_lake.jpg',
-        alt: 'Рисунок озера в тумане под светом луны'
-    },
-    {
-        name: 'Склон на закате',
-        link: './blocks/card/__photo/sunset.jpg',
-        alt: 'Рисунок малинового заката'
-    },
-    {
-        name: 'Розовая прогулка',
-        link: './blocks/card/__photo/pink_walk.png',
-        alt: 'Рисунок прогулки людей в поле в окружении розовых фей'
-    },
-    {
-        name: 'Дом-приведение',
-        link: './blocks/card/__photo/house-ghost.jpg',
-        alt: 'Рисунок темного дома на холме, освещенного луной'
-    },
-    {
-        name: 'Поляна цветов',
-        link: './blocks/card/__photo/flower_field.jpg',
-        alt: 'Фотография поляны желтых цветов под ясным небом'
-    },
-    {
-        name: 'Рождественская ярмарка',
-        link: './blocks/card/__photo/new_Year.jpg',
-        alt: 'Фотография новогодней ярмарки в огоньках'
-    }
-];
 
-function closePopupByEsc (evt) { // функция: возможность закрывать поп-ап нажав на Esc
-    if (evt.key === 'Escape') { // если это кнопка Esc, закрываем открытый поп-ап:
-        // ищем открытый поп-ап
-        const popupActive = document.querySelector('.popup_opened');
-        // закрываем каждый из них
-        popupActive.classList.remove('popup_opened');
-    }
-};
+function openPopup (popup) { // функция: открыть pop-up
+    popup.classList.add('popup_opened');
+    //добавим возможность закрыть по-ап, нажав Esc
+    document.addEventListener('keydown',closePopupByEsc);
+}
 
 function closePopup (popup) { // функция: закрыть pop-up
     popup.classList.remove('popup_opened');
@@ -73,50 +38,41 @@ function closePopup (popup) { // функция: закрыть pop-up
     document.removeEventListener('keydown',closePopupByEsc);
 }
 
+const closePopupByEsc = function (evt) { // функция: возможность закрывать поп-ап нажав на Esc
+    if (evt.key === 'Escape') { 
+        const popupActive = document.querySelector('.popup_opened');
+        closePopup(popupActive);
+    }
+};
+
 function closePopupByOverlay(popup) { // функция: возможность закрывать поп-ап кликом на оверлей
     // ищем контейнер, оборачивающий все, кроме фона поп-апа
     const popupContainer = popup.querySelector('.popup__container');
-    popup.addEventListener('click', (evt) => { // на поп-ап вешаем слушатель события "клик"
-        // если нижним DOM-элементом, на котором сработало событие оказался поп-ап или контейнер (так захвачен весь оверлей)
+    popup.addEventListener('click', (evt) => { 
+        // если нижним DOM-элементом, на котором сработало событие оказался поп-ап или контейнер (так захвачен весь оверлей), закрываем
         if (evt.target === popup || evt.target === popupContainer) {
-            //закрываем поп-ап
             closePopup(popup);
         }
     });
 }
 
-function openPopup (popup) { // функция: открыть pop-up
-    popup.classList.add('popup_opened');
-    //добавим возможность закрыть по-ап, нажав Esc
-    document.addEventListener('keydown',closePopupByEsc);
-    //добавляем возможность закрыть по-ап, кликнув по оверлею
-    closePopupByOverlay(popup);
-}
-
-function likeCard (cardElement) { // функция: добавить карточке возможность поставить лайк или убрать его
-    // ищем кнопку для лайка
+function setLikeHandler (cardElement) { // функция: добавить карточке возможность поставить лайк или убрать его
     const likeButton = cardElement.querySelector('.card__like-button');
-    // если на нее нажали -> сделать активной/неактивной
     likeButton.addEventListener('click', function(evt) {
         evt.target.classList.toggle('card__like-button_active');
     });
 }
 
-function deleteCard (cardElement) { // функция: добавить карточке возможность удаления
-    // ищем кнопку удаления
+function setDeleteCardHandler (cardElement) { // функция: добавить карточке возможность удаления
     const deleteButton = cardElement.querySelector('.card__delete-button');
-    // если на нее нажали -> удалить карточку
     deleteButton.addEventListener('click', function(evt) {
         evt.target.closest('.card').remove();
     }); 
 }
 
-function createCardPopup (cardElement) { // функция: добавить карточке возможность открытия фото в pop-up
-    // найти фото с карточки
+function setImageCardHandler (cardElement) { // функция: добавить карточке возможность открытия фото в pop-up
     const photo = cardElement.querySelector('.card__photo');
-    // найти подпись с карточки
     const photoText = cardElement.querySelector('.card__text');
-    // если нажали на фото карточки -> в поп-ап для открытия фото добавить фото, текст и открыть этот поп-ап
     photo.addEventListener('click', function (evt) {
         popupPhoto.src = evt.target.src;
         popupPhoto.alt = evt.target.alt;
@@ -126,104 +82,85 @@ function createCardPopup (cardElement) { // функция: добавить к�
 }
 
 function createCard (name, link, alt) { //функция: создать карточку
-    // клонируем содержимое тега template
     const cardElement = cardTemplate.cloneNode(true);
-    // находим картинку и подпись карточки
     const cardElementText = cardElement.querySelector('.card__text');
     const cardElementImage = cardElement.querySelector('.card__photo');
-    // заполняем содержимое уникальными данными конкретной карточки
     cardElementText.textContent = name;
     cardElementImage.src = link;
     cardElementImage.alt = alt;
-    // добавляем карточке возможности лайка, удаления и открытия фото в поп-апе
-    likeCard (cardElement);
-    deleteCard (cardElement);
-    createCardPopup(cardElement); 
-    // возвращаем получившуюся карточку 
+    setLikeHandler(cardElement);
+    setDeleteCardHandler (cardElement);
+    setImageCardHandler(cardElement); 
     return cardElement;
-}
-
-function profileFormSubmitHandler (evt) { // функция: отправить форму поп-апа редактирования профиля
-    // отменить стандартную отправку формы:
-    evt.preventDefault(); 
-    // присвоить имени и описанию профиля, отображаемым на странице, значения, находящиеся в соответсвтующих графах в pop-up:
-    profileName.textContent = popupInputName.value;
-    profileDescription.textContent = popupInputDescription.value;
-    // закрыть pop-up:
-    closePopup(popupProfile);
 }
 
 function addCard (card) { //функция: добавить карточку в начало контейнера с карточками
     cardsPlace.prepend(card);
 }
 
-function cardsFormSubmitHandler (evt) { // функция: отправить форму поп-апа добавления новой карточки
-    // отменить стандартную отправку формы:
+function profileFormSubmitHandler (evt) { // функция: отправить форму поп-апа редактирования профиля
     evt.preventDefault(); 
-    // создаем константы для краткого обозначения введенных пользователем данных
+    profileName.textContent = popupInputName.value;
+    profileDescription.textContent = popupInputDescription.value;
+    closePopup(popupProfile);
+}
+
+function cardsFormSubmitHandler (evt) { // функция: отправить форму поп-апа добавления новой карточки
+    evt.preventDefault(); 
     const name = popupInputPlaceName.value;
     const link = popupInputLink.value;
     const alt = 'Фотография с подписью: ' + popupInputPlaceName.value;
-    //создаем новую карточку на основании введенных пользователем данных
     const card = createCard(name, link, alt);
-    // добавляем получившуюся карточку 
     addCard(card);
-    // очищаем форму
     popupCardsForm.reset();
-    // закрыть pop-up:
     closePopup(popupCards);
 }
 
-// подключим валидацию всем формам поп-апов (функция и ее аргумент описаны в файле validate.js)
+
+// Подключим валидацию всем формам поп-апов (описание в validate.js)
 enableValidation(validationConfig);
 
-
-// если юзер нажал на кнопку редактировать профиль -> открыть соответсвующий pop-up редактирования профиля
+// Слушатели поп-апа для редактирования профиля
 editButton.addEventListener('click',function () {
-    // открыть pop-up
     openPopup(popupProfile);
-    //заполнить соответсвующие графы pop-up значениями имени и описания профиля
     popupInputName.value = profileName.textContent;
     popupInputDescription.value = profileDescription.textContent;
-    // проверить, валидна ли форма на момент открытия (функция и ее аргумент описаны в файле validate.js)
-    doStartValidity(popupProfileForm,validationConfig);
+    doStartValidity(popupProfileForm,validationConfig); //(описание в validate.js)
 });
-// если юзер нажал на enter или кнопку Сохранить-> отправить форму
 popupProfileForm.addEventListener('submit', profileFormSubmitHandler);
-// если юзер нажал на кнопку закрыть pop-up редактирования профиля-> закрыть его
 closeButtonPopupProfile.addEventListener('click', function () { 
     closePopup(popupProfile);
-    // сбросить валидацию (функция и ее аргумент описаны в файле validate.js)
-    resetPassedValidation(popupProfile, validationConfig);
+    resetPassedValidation(popupProfile, validationConfig); //(описание в validate.js)
 });
 
 
-// если юзер нажал на кнопку добавить фото -> открыть соответсвующий pop-up для добавления карточки
+// Слушатели поп-апа для добавления карточки
 addButton.addEventListener('click',function () { 
     openPopup(popupCards);
-    // проверить, валидна ли форма на момент открытия (функция и ее аргумент описаны в файле validate.js)
-    doStartValidity(popupCardsForm, validationConfig);
+    doStartValidity(popupCardsForm, validationConfig); //(описание в validate.js)
 });
-// если юзер нажал на enter или кнопку Создать-> отправить форму
 popupCardsForm.addEventListener('submit', cardsFormSubmitHandler);
-// если юзер нажал на кнопку закрыть pop-up для добавления карточки -> закрыть его
 closeButtonPopupCards.addEventListener('click', function () { 
     closePopup(popupCards);
-    // сбросить валидацию (функция и ее аргумент описаны в файле validate.js)
-    resetPassedValidation(popupCards, validationConfig);
+    resetPassedValidation(popupCards, validationConfig); //(описание в validate.js)
     // очистить поля формы
     popupCardsForm.reset();
  });
 
 
-// если юзер нажал на кнопку закрыть поп-ап для открытия фото -> закрыть его
+// Слушатели поп-апа для открытия фото
 closeButtonImage.addEventListener('click', function () { closePopup(popupImage) });
 
 
+//Добавляем возможность любому поп-апу закрыться по клику по оверлею
+const popupList = Array.from(document.querySelectorAll('.popup'));
+popupList.forEach(popup => {
+    closePopupByOverlay(popup);
+});
+
+
 // Добавление 6-ти стартовых карточек:
-initialCards.forEach(function (item) { // проходимся по каждому элементу массива с данными для конкретных карточек
-    //создаем новую карточку на основании данных карточки
+initialCards.forEach(function (item) { //(initialCards лежит в initial-сards.js)
     const card = createCard(item.name, item.link, item.alt);
-    // добавляем получившуюся карточку 
     addCard(card);
 });

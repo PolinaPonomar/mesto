@@ -27,16 +27,14 @@ function hideError (input, form, config) { // функция: убрать ош�
 
 function checkInputValidity (input, form, config) { // функция: провалидировать поле ввода
     if (!input.validity.valid) {
-        // если не валидно - показать ошибку
         showError(input, form, config);
     } else {
-        // если валидно - скрыть ошибку
         hideError(input, form, config);
     }
 }
 
 function toggleButtonState (isFormValid, button, config) { // функция: включить/выключить кнопку
-    if(isFormValid) { // если форма валидна
+    if(isFormValid) {
         // сделать кнопку яркой
         button.classList.remove(config.inactiveButtonClass);
         // включить кнопку
@@ -50,12 +48,11 @@ function toggleButtonState (isFormValid, button, config) { // функция: в
 }
 
 function setEventListeners (form, config) { // функция: повесить слушатели на поля формы
-    // ищем все поля формы
     const inputList = Array.from(form.querySelectorAll(config.inputSelector));
     // ищем кнопку отправки формы
     const button = form.querySelector(config.submitButtonSelector);
-    inputList.forEach(input => { // каждому полю формы
-        input.addEventListener('input', () => { // прописываем реакцию на ввод текста
+    inputList.forEach(input => {
+        input.addEventListener('input', () => {
             // валидируем текст
             checkInputValidity(input, form, config);
             // валидируем кнопку
@@ -65,13 +62,11 @@ function setEventListeners (form, config) { // функция: повесить 
 }
 
 function enableValidation (config) { // функция: провалидировать все формы
-    // ищем все формы
     const forms = Array.from(document.querySelectorAll(config.formSelector));
-    forms.forEach((form) => { // каждой форме
-        form.addEventListener('submit', function (evt) { // отменяем стандартную отправку
+    forms.forEach((form) => {
+        form.addEventListener('submit', function (evt) {
             evt.preventDefault();
         });
-        // добавляем слушателей на все ее поля ввода
         setEventListeners (form, config);
     }); 
 }
@@ -85,10 +80,8 @@ function doStartValidity (form, config) { // функция: провалиди�
 }
 
 function resetPassedValidation (form, config) { // функция: сбросить результаты валидации
-    // ищем все поля формы
     const inputList = Array.from(form.querySelectorAll(config.inputSelector));
-    inputList.forEach(input => { // каждому полю формы
-         // уберем ошибку
+    inputList.forEach(input => {
         hideError(input, form, config);
     });
 }
