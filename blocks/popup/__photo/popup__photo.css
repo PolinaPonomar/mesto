@@ -3,3 +3,7 @@
     max-width: 75vw;
     object-fit: cover;
 }
+
+.popup__photo:hover {
+    cursor: default; 
+}

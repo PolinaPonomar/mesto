@@ -7,3 +7,7 @@
     line-height: calc(15/12*100%);
     color: #FFFFFF;
 }
+
+.popup__photo-name:hover {
+    cursor: default; 
+}

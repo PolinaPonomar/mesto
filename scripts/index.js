@@ -58,14 +58,40 @@ const initialCards = [
     }
 ];
 
-function openPopup (popup) { // функция: открыть pop-up
-    popup.classList.add('popup_opened');
-}
+function closePopupByEsc (evt) { // функция: возможность закрывать поп-ап нажав на Esc
+    if (evt.key === 'Escape') { // если это кнопка Esc, закрываем открытый поп-ап:
+        // ищем открытый поп-ап
+        const popupActive = document.querySelector('.popup_opened');
+        // закрываем каждый из них
+        popupActive.classList.remove('popup_opened');
+    }
+};
 
 function closePopup (popup) { // функция: закрыть pop-up
     popup.classList.remove('popup_opened');
+    //удалим возможность закрыть по-ап, нажав Esc
+    document.removeEventListener('keydown',closePopupByEsc);
 }
 
+function closePopupByOverlay(popup) { // функция: возможность закрывать поп-ап кликом на оверлей
+    // ищем контейнер, оборачивающий все, кроме фона поп-апа
+    const popupContainer = popup.querySelector('.popup__container');
+    popup.addEventListener('click', (evt) => { // на поп-ап вешаем слушатель события "клик"
+        // если нижним DOM-элементом, на котором сработало событие оказался поп-ап или контейнер (так захвачен весь оверлей)
+        if (evt.target === popup || evt.target === popupContainer) {
+            //закрываем поп-ап
+            closePopup(popup);
+        }
+    });
+}
+
+function openPopup (popup) { // функция: открыть pop-up
+    popup.classList.add('popup_opened');
+    //добавим возможность закрыть по-ап, нажав Esc
+    document.addEventListener('keydown',closePopupByEsc);
+    //добавляем возможность закрыть по-ап, кликнув по оверлею
+    closePopupByOverlay(popup);
+}
 
 function likeCard (cardElement) { // функция: добавить карточке возможность поставить лайк или убрать его
     // ищем кнопку для лайка
@@ -162,16 +188,14 @@ editButton.addEventListener('click',function () {
     // проверить, валидна ли форма на момент открытия (функция и ее аргумент описаны в файле validate.js)
     doStartValidity(popupProfileForm,validationConfig);
 });
-
 // если юзер нажал на enter или кнопку Сохранить-> отправить форму
 popupProfileForm.addEventListener('submit', profileFormSubmitHandler);
-
 // если юзер нажал на кнопку закрыть pop-up редактирования профиля-> закрыть его
 closeButtonPopupProfile.addEventListener('click', function () { 
     closePopup(popupProfile);
     // сбросить валидацию (функция и ее аргумент описаны в файле validate.js)
     resetPassedValidation(popupProfile, validationConfig);
- });
+});
 
 
 // если юзер нажал на кнопку добавить фото -> открыть соответсвующий pop-up для добавления карточки
@@ -180,10 +204,8 @@ addButton.addEventListener('click',function () {
     // проверить, валидна ли форма на момент открытия (функция и ее аргумент описаны в файле validate.js)
     doStartValidity(popupCardsForm, validationConfig);
 });
-
 // если юзер нажал на enter или кнопку Создать-> отправить форму
 popupCardsForm.addEventListener('submit', cardsFormSubmitHandler);
-
 // если юзер нажал на кнопку закрыть pop-up для добавления карточки -> закрыть его
 closeButtonPopupCards.addEventListener('click', function () { 
     closePopup(popupCards);
