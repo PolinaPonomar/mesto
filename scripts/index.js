@@ -36,6 +36,8 @@ function closePopup (popup) { // функция: закрыть pop-up
     popup.classList.remove('popup_opened');
     //удалим возможность закрыть по-ап, нажав Esc
     document.removeEventListener('keydown',closePopupByEsc);
+    // сбросить результат валидации
+    resetPassedValidation(popup, validationConfig); //(описание в validate.js)
 }
 
 const closePopupByEsc = function (evt) { // функция: возможность закрывать поп-ап нажав на Esc
@@ -51,6 +53,9 @@ function closePopupByOverlay(popup) { // функция: возможность 
     popup.addEventListener('click', (evt) => { 
         // если нижним DOM-элементом, на котором сработало событие оказался поп-ап или контейнер (так захвачен весь оверлей), закрываем
         if (evt.target === popup || evt.target === popupContainer) {
+            if (popup === popupCards) {
+                popupCardsForm.reset();
+            }
             closePopup(popup);
         }
     });
@@ -130,7 +135,6 @@ editButton.addEventListener('click',function () {
 popupProfileForm.addEventListener('submit', profileFormSubmitHandler);
 closeButtonPopupProfile.addEventListener('click', function () { 
     closePopup(popupProfile);
-    resetPassedValidation(popupProfile, validationConfig); //(описание в validate.js)
 });
 
 
@@ -142,7 +146,6 @@ addButton.addEventListener('click',function () {
 popupCardsForm.addEventListener('submit', cardsFormSubmitHandler);
 closeButtonPopupCards.addEventListener('click', function () { 
     closePopup(popupCards);
-    resetPassedValidation(popupCards, validationConfig); //(описание в validate.js)
     // очистить поля формы
     popupCardsForm.reset();
  });
