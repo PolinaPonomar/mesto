@@ -71,17 +71,18 @@ function enableValidation (config) { // функция: провалидиров
     }); 
 }
 
+function resetPassedValidation (form, config) { // функция: сбросить результаты валидации
+    const inputList = Array.from(form.querySelectorAll(config.inputSelector));
+    inputList.forEach(input => {
+        hideError(input, form, config);
+    });
+} 
 function doStartValidity (form, config) { // функция: провалидировать только что открытую форму 
     // (поля не валидируем при открытии, чтобы не пугать пользователя)
     // ищем кнопку отправки формы
     const button = form.querySelector(config.submitButtonSelector);
     // валидируем кнопку
     toggleButtonState (form.checkValidity(), button, config);
-}
-
-function resetPassedValidation (form, config) { // функция: сбросить результаты валидации
-    const inputList = Array.from(form.querySelectorAll(config.inputSelector));
-    inputList.forEach(input => {
-        hideError(input, form, config);
-    });
+    // //сбрасываем ошибки предыдущей валидации
+    resetPassedValidation (form, config);
 }
