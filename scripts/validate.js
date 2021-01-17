@@ -86,3 +86,5 @@ function doStartValidity (form, config) { // функция: провалиди�
     // //сбрасываем ошибки предыдущей валидации
     resetPassedValidation (form, config);
 }
+
+export {validationConfig, enableValidation, doStartValidity};

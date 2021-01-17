@@ -1,4 +1,4 @@
-const initialCards = [
+export const initialCards = [
     {
         name: 'Волшебное озеро',
         link: './blocks/card/__photo/magic_lake.jpg',

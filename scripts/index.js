@@ -1,3 +1,6 @@
+import {validationConfig, enableValidation, doStartValidity} from './validate.js';
+import {initialCards} from './initial-сards.js';
+
 const editButton = document.querySelector('.profile__edit-button');
 const profileName = document.querySelector('.profile__name');
 const profileDescription = document.querySelector('.profile__description');
