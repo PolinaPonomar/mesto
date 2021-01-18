@@ -1,10 +1,12 @@
 import {validationConfig, enableValidation, doStartValidity} from './validate.js';
 import {initialCards} from './initial-сards.js';
+import {Card} from './Card.js';
 
 const editButton = document.querySelector('.profile__edit-button');
 const profileName = document.querySelector('.profile__name');
 const profileDescription = document.querySelector('.profile__description');
 const addButton = document.querySelector('.profile__add-button');
+const cardsPlace = document.querySelector('.cards');
 
 //pop-up для редактирования профиля
 const popupProfile = document.querySelector('.popup_profile');
@@ -20,14 +22,6 @@ const popupInputPlaceName = popupCards.querySelector('.popup__form-item_value_pl
 const popupInputLink = popupCards.querySelector('.popup__form-item_value_link');
 const popupCardsForm = popupCards.querySelector('.popup__form_type_cards');
 
-//pop-up для открытия фото
-const popupImage = document.querySelector('.popup_image');
-const closeButtonImage = popupImage.querySelector('.popup__close-button');
-const popupPhoto = popupImage.querySelector('.popup__photo');
-const popupPhotoName = popupImage.querySelector('.popup__photo-name');
-
-const cardsPlace = document.querySelector('.cards');
-const cardTemplate = document.querySelector('#card-template').content;
 
 function openPopup (popup) { // функция: открыть pop-up
     popup.classList.add('popup_opened');
@@ -48,7 +42,7 @@ const closePopupByEsc = function (evt) { // функция: возможност
     }
 };
 
-function closePopupByOverlay(popup) { // функция: возможность закрывать поп-ап кликом на оверлей
+function closePopupByOverlay (popup) { // функция: возможность закрывать поп-ап кликом на оверлей
     // ищем контейнер, оборачивающий все, кроме фона поп-апа
     const popupContainer = popup.querySelector('.popup__container');
     popup.addEventListener('click', (evt) => { 
@@ -57,44 +51,6 @@ function closePopupByOverlay(popup) { // функция: возможность 
             closePopup(popup);
         }
     });
-}
-
-function setLikeHandler (cardElement) { // функция: добавить карточке возможность поставить лайк или убрать его
-    const likeButton = cardElement.querySelector('.card__like-button');
-    likeButton.addEventListener('click', function(evt) {
-        evt.target.classList.toggle('card__like-button_active');
-    });
-}
-
-function setDeleteCardHandler (cardElement) { // функция: добавить карточке возможность удаления
-    const deleteButton = cardElement.querySelector('.card__delete-button');
-    deleteButton.addEventListener('click', function(evt) {
-        evt.target.closest('.card').remove();
-    }); 
-}
-
-function setImageCardHandler (cardElement) { // функция: добавить карточке возможность открытия фото в pop-up
-    const photo = cardElement.querySelector('.card__photo');
-    const photoText = cardElement.querySelector('.card__text');
-    photo.addEventListener('click', function (evt) {
-        popupPhoto.src = evt.target.src;
-        popupPhoto.alt = evt.target.alt;
-        popupPhotoName.textContent = photoText.textContent;
-        openPopup(popupImage);
-    });
-}
-
-function createCard (name, link, alt) { //функция: создать карточку
-    const cardElement = cardTemplate.cloneNode(true);
-    const cardElementText = cardElement.querySelector('.card__text');
-    const cardElementImage = cardElement.querySelector('.card__photo');
-    cardElementText.textContent = name;
-    cardElementImage.src = link;
-    cardElementImage.alt = alt;
-    setLikeHandler(cardElement);
-    setDeleteCardHandler (cardElement);
-    setImageCardHandler(cardElement); 
-    return cardElement;
 }
 
 function addCard (card) { //функция: добавить карточку в начало контейнера с карточками
@@ -113,12 +69,13 @@ function handleCardsFormSubmit (evt) { // функция: отправить ф�
     const name = popupInputPlaceName.value;
     const link = popupInputLink.value;
     const alt = 'Фотография с подписью: ' + popupInputPlaceName.value;
-    const card = createCard(name, link, alt);
-    addCard(card);
+    const item = {name, link, alt};
+    const card = new Card(item, '#card-template', openPopup, closePopup);
+    const cardElement = card.createCard();
+    addCard(cardElement);
     popupCardsForm.reset();
     closePopup(popupCards);
 }
-
 
 // Подключим валидацию всем формам поп-апов (описание в validate.js)
 enableValidation(validationConfig);
@@ -135,7 +92,6 @@ closeButtonPopupProfile.addEventListener('click', function () {
     closePopup(popupProfile);
 });
 
-
 // Слушатели поп-апа для добавления карточки
 addButton.addEventListener('click',function () { 
     openPopup(popupCards);
@@ -146,20 +102,15 @@ closeButtonPopupCards.addEventListener('click', function () {
     closePopup(popupCards);
  });
 
-
-// Слушатели поп-апа для открытия фото
-closeButtonImage.addEventListener('click', function () { closePopup(popupImage) });
-
-
 //Добавляем возможность любому поп-апу закрыться по клику по оверлею
 const popupList = Array.from(document.querySelectorAll('.popup'));
 popupList.forEach(popup => {
     closePopupByOverlay(popup);
 });
 
-
-// Добавление 6-ти стартовых карточек:
+// Добавление 6-ти стартовых карточек:  В ОСНОВНОЙ КОД
 initialCards.forEach(function (item) { //(initialCards лежит в initial-сards.js)
-    const card = createCard(item.name, item.link, item.alt);
-    addCard(card);
+    const card = new Card(item, '#card-template', openPopup, closePopup);
+    const cardElement = card.createCard();
+    addCard(cardElement);
 });
