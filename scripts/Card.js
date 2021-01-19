@@ -1,3 +1,5 @@
+import {openPopup, closePopup} from './utils.js';
+
 //pop-up для открытия фото
 const popupImage = document.querySelector('.popup_image');
 const closeButtonImage = popupImage.querySelector('.popup__close-button');
@@ -5,13 +7,11 @@ const popupPhoto = popupImage.querySelector('.popup__photo');
 const popupPhotoName = popupImage.querySelector('.popup__photo-name');
 
 export class Card {
-    constructor (data, cardSelector, openPopup, closePopup) {
+    constructor (data, cardSelector) {
         this._link = data.link;
         this._name = data.name;
         this._alt = data.alt;
-        this._cardSelector = cardSelector; //'#card-template'
-        this._openPopup = openPopup;
-        this._closePopup = closePopup;
+        this._cardSelector = cardSelector;
 
         this._element = this._getTemplate();
         this._likeButton = this._element.querySelector('.card__like-button');
@@ -36,19 +36,18 @@ export class Card {
         this._deleteButton.closest('.card').remove();
     }
 
-    _handleOpenPopup () { // функция: открыть поп-ап с фото (обработчик нажатия на фото)
+    _handleOpenPopup () { // функция: открыть поп-ап с фото
         popupPhoto.src = this._link;
         popupPhoto.alt = this._alt;
         popupPhotoName.textContent = this._photoText.textContent;
-        this._openPopup(popupImage);
-        
+        openPopup(popupImage); 
     }
       
-    _handleClosePopup () {
+    _handleClosePopup () { // функция: закрыть поп-ап с фото
         popupPhoto.src = '';
         popupPhoto.alt = '';
         popupPhotoName.textContent = '';
-        this._closePopup(popupImage);
+        closePopup(popupImage);
     }
 
     _setEventListeners () { // функция: добавить слушатели карточке
