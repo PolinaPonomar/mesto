@@ -23,6 +23,14 @@ const popupInputPlaceName = popupCards.querySelector('.popup__form-item_value_pl
 const popupInputLink = popupCards.querySelector('.popup__form-item_value_link');
 const popupCardsForm = popupCards.querySelector('.popup__form_type_cards');
 
+function createCard (data) { // функция: создать карточку (data должна содержать имя карточки name, alt и ссылку на картинку link)  
+    const card = new Card(data, '#card-template'); // описание класса Card и его методов лежит в Card.js
+    return card.generateCard();
+}
+
+function addCard (card) { // функция: добавить карточку в начало контейнера с карточками
+    cardsPlace.prepend(card);
+}
 
 function handleProfileFormSubmit (evt) { // функция: отправить форму поп-апа редактирования профиля
     evt.preventDefault(); 
@@ -36,16 +44,11 @@ function handleCardsFormSubmit (evt) { // функция: отправить ф�
     const name = popupInputPlaceName.value;
     const link = popupInputLink.value;
     const alt = 'Фотография с подписью: ' + popupInputPlaceName.value;
-    const item = {name, link, alt};
-    const card = new Card(item, '#card-template');
-    const cardElement = card.createCard();
-    addCard(cardElement);
+    const data = {name, link, alt};
+    const card = createCard(data);
+    addCard(card);
     popupCardsForm.reset();
     closePopup(popupCards);
-}
-
-function addCard (card) { // функция: добавить карточку в начало контейнера с карточками
-    cardsPlace.prepend(card);
 }
 
 // Подключим валидацию всем формам поп-апов (описание класса FormValidator и его методов лежит в FormValidator.js)
@@ -84,7 +87,6 @@ popupList.forEach(popup => {
 
 // Добавление 6-ти стартовых карточек:
 initialCards.forEach(function (item) { // initialCards лежит в initial-сards.js
-    const card = new Card(item, '#card-template'); // описание класса Card и его методов лежит в Card.js
-    const cardElement = card.createCard();
-    addCard(cardElement);
+    const card = createCard(item);
+    addCard(card);
 });

@@ -24,6 +24,7 @@ export class Card {
         const cardElement = document
           .querySelector(this._cardSelector)
           .content
+          .querySelector('.card')
           .cloneNode(true);
         return cardElement;
     }
@@ -33,7 +34,9 @@ export class Card {
     }
 
     _handleDeleteClick () { // функция: удалить карточку
-        this._deleteButton.closest('.card').remove();
+        this._element.remove();
+        // зануляем, чтобы нельзя было сослаться на эту ноду дом дерева
+        this._element = null;
     }
 
     _handleOpenPopup () { // функция: открыть поп-ап с фото
@@ -72,7 +75,7 @@ export class Card {
         });
     }
 
-    createCard () { //функция: создать карточку
+    generateCard () { //функция: создать карточку
         this._photoText.textContent = this._name;
         this._photo.src = this._link;
         this._photo.alt = this._alt;
