@@ -1,13 +1,15 @@
-import {openPopup, closePopup, closePopupByOverlay} from './utils.js';
-import {initialCards} from './initial-сards.js';
-import {Card} from './Card.js';
-import {validationConfig, FormValidator} from './FormValidator.js';
+import {initialCards} from '../utils/initial-сards.js';
+import {openPopup, closePopup, closePopupByOverlay} from '../components/utils.js';
+import {Card} from '../components/Card.js';
+import {Section} from '../components/Section.js';
+import {validationConfig, FormValidator} from '../components/FormValidator.js';
 
 const editButton = document.querySelector('.profile__edit-button');
 const profileName = document.querySelector('.profile__name');
 const profileDescription = document.querySelector('.profile__description');
 const addButton = document.querySelector('.profile__add-button');
-const cardsPlace = document.querySelector('.cards');
+// const cardsPlace = document.querySelector('.cards'); // в Section передала '.cards', => уже не нужно
+const cardsSectionSelector = '.cards';
 
 // pop-up для редактирования профиля
 const popupProfile = document.querySelector('.popup_profile');
@@ -23,13 +25,20 @@ const popupInputPlaceName = popupCards.querySelector('.popup__form-item_value_pl
 const popupInputLink = popupCards.querySelector('.popup__form-item_value_link');
 const popupCardsForm = popupCards.querySelector('.popup__form_type_cards');
 
-function createCard (data) { // функция: создать карточку (data должна содержать имя карточки name, alt и ссылку на картинку link)  
-    const card = new Card(data, '#card-template'); // описание класса Card и его методов лежит в Card.js
-    return card.generateCard();
-}
 
-function addCard (card) { // функция: добавить карточку в начало контейнера с карточками
-    cardsPlace.prepend(card);
+// function createCard (data) { // функция: создать карточку (data должна содержать имя карточки name, alt и ссылку на картинку link)  
+//     const card = new Card(data, '#card-template'); // описание класса Card и его методов лежит в Card.js
+//     return card.generateCard();
+// }
+
+// function addCard (card) { // функция: добавить карточку в начало контейнера с карточками
+//     cardsPlace.prepend(card);
+// }
+
+function cardsRenderer(item) {
+    const card = new Card(item, '#card-template');
+    const cardElement = card.generateCard();
+    cardsList.addItem(cardElement);
 }
 
 function handleProfileFormSubmit (evt) { // функция: отправить форму поп-апа редактирования профиля
@@ -44,9 +53,17 @@ function handleCardsFormSubmit (evt) { // функция: отправить ф�
     const name = popupInputPlaceName.value;
     const link = popupInputLink.value;
     const alt = 'Фотография с подписью: ' + popupInputPlaceName.value;
-    const data = {name, link, alt};
-    const card = createCard(data);
-    addCard(card);
+    const data = [{name, link, alt}];
+    // const card = createCard(data);
+    // addCard(card);
+    const cardsList = new Section({
+        items: data,
+        renderer: cardsRenderer
+        },
+        cardsSectionSelector
+    );
+      // отрисовка карточек
+    cardsList.renderItems();
     popupCardsForm.reset();
     closePopup(popupCards);
 }
@@ -86,7 +103,17 @@ popupList.forEach(popup => {
 });
 
 // Добавление 6-ти стартовых карточек:
-initialCards.forEach(function (item) { // initialCards лежит в initial-сards.js
-    const card = createCard(item);
-    addCard(card);
-});
+
+// initialCards.forEach(function (item) { // initialCards лежит в initial-сards.js
+//     const card = createCard(item);
+//     addCard(card);
+// });
+
+const cardsList = new Section({
+    items: initialCards,
+    renderer: cardsRenderer
+    },
+    cardsSectionSelector
+);
+  // отрисовка карточек
+cardsList.renderItems();
