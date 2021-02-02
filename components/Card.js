@@ -1,17 +1,10 @@
-import {openPopup, closePopup} from './utils.js';
-
-//pop-up для открытия фото
-const popupImage = document.querySelector('.popup_image');
-const closeButtonImage = popupImage.querySelector('.popup__close-button');
-const popupPhoto = popupImage.querySelector('.popup__photo');
-const popupPhotoName = popupImage.querySelector('.popup__photo-name');
-
 export class Card {
-    constructor (data, cardSelector) {
+    constructor (data, cardSelector, handleCardClick) {
         this._link = data.link;
         this._name = data.name;
         this._alt = data.alt;
         this._cardSelector = cardSelector;
+        this._handleCardClick = handleCardClick;
 
         this._element = this._getTemplate();
         this._likeButton = this._element.querySelector('.card__like-button');
@@ -39,20 +32,6 @@ export class Card {
         this._element = null;
     }
 
-    _handleOpenPopup () { // функция: открыть поп-ап с фото
-        popupPhoto.src = this._link;
-        popupPhoto.alt = this._alt;
-        popupPhotoName.textContent = this._photoText.textContent;
-        openPopup(popupImage); 
-    }
-      
-    _handleClosePopup () { // функция: закрыть поп-ап с фото
-        popupPhoto.src = '';
-        popupPhoto.alt = '';
-        popupPhotoName.textContent = '';
-        closePopup(popupImage);
-    }
-
     _setEventListeners () { // функция: добавить слушатели карточке
         //слушатель лайка
         this._likeButton.addEventListener('click', () => {
@@ -66,12 +45,7 @@ export class Card {
 
         //слушатель клика по фото
         this._photo.addEventListener('click', () => {
-            this._handleOpenPopup();
-        });
-
-         //слушатель клика по кнопке закрытия поп-апа с фото
-         closeButtonImage.addEventListener('click', () => {
-            this._handleClosePopup();
+            this._handleCardClick(this._link, this._alt,this._photoText.textContent); //функция, переданная в конструктор. Открывает поп-ап при нажатии на карточку
         });
     }
 

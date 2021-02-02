@@ -2,13 +2,13 @@ import {initialCards} from '../utils/initial-сards.js';
 import {openPopup, closePopup, closePopupByOverlay} from '../components/utils.js';
 import {Card} from '../components/Card.js';
 import {Section} from '../components/Section.js';
+import {PopupWithImage} from '../components/PopupWithImage.js';
 import {validationConfig, FormValidator} from '../components/FormValidator.js';
 
 const editButton = document.querySelector('.profile__edit-button');
 const profileName = document.querySelector('.profile__name');
 const profileDescription = document.querySelector('.profile__description');
 const addButton = document.querySelector('.profile__add-button');
-// const cardsPlace = document.querySelector('.cards'); // в Section передала '.cards', => уже не нужно
 const cardsSectionSelector = '.cards';
 
 // pop-up для редактирования профиля
@@ -26,17 +26,14 @@ const popupInputLink = popupCards.querySelector('.popup__form-item_value_link');
 const popupCardsForm = popupCards.querySelector('.popup__form_type_cards');
 
 
-// function createCard (data) { // функция: создать карточку (data должна содержать имя карточки name, alt и ссылку на картинку link)  
-//     const card = new Card(data, '#card-template'); // описание класса Card и его методов лежит в Card.js
-//     return card.generateCard();
-// }
+function handleCardClick (link, alt, text) { // функция, передающаяся в класс Card: открывает поп-ап при нажатии на карточку. 
+    const popupWithImage = new PopupWithImage('.popup_image');
+    popupWithImage.open(link, alt, text);
+    popupWithImage.setEventListeners();
+}
 
-// function addCard (card) { // функция: добавить карточку в начало контейнера с карточками
-//     cardsPlace.prepend(card);
-// }
-
-function cardsRenderer(item) {
-    const card = new Card(item, '#card-template');
+function cardsRenderer(item) { // функция, передающаяся в класс Section в качестве фукнкции для отрисовки: отрисовывает карточки с фото.
+    const card = new Card(item, '#card-template', handleCardClick);
     const cardElement = card.generateCard();
     cardsList.addItem(cardElement);
 }
@@ -54,16 +51,15 @@ function handleCardsFormSubmit (evt) { // функция: отправить ф�
     const link = popupInputLink.value;
     const alt = 'Фотография с подписью: ' + popupInputPlaceName.value;
     const data = [{name, link, alt}];
-    // const card = createCard(data);
-    // addCard(card);
-    const cardsList = new Section({
+    // создание карточки
+    const card = new Section({
         items: data,
         renderer: cardsRenderer
         },
         cardsSectionSelector
     );
-      // отрисовка карточек
-    cardsList.renderItems();
+      // отрисовка карточки
+    card.renderItems();
     popupCardsForm.reset();
     closePopup(popupCards);
 }
@@ -96,19 +92,8 @@ closeButtonPopupCards.addEventListener('click', function () {
     closePopup(popupCards);
  });
 
-// Добавляем возможность любому поп-апу закрыться по клику по оверлею
-const popupList = Array.from(document.querySelectorAll('.popup'));
-popupList.forEach(popup => {
-    closePopupByOverlay(popup);
-});
 
 // Добавление 6-ти стартовых карточек:
-
-// initialCards.forEach(function (item) { // initialCards лежит в initial-сards.js
-//     const card = createCard(item);
-//     addCard(card);
-// });
-
 const cardsList = new Section({
     items: initialCards,
     renderer: cardsRenderer
