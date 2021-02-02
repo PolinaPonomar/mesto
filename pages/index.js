@@ -3,6 +3,7 @@ import {openPopup, closePopup, closePopupByOverlay} from '../components/utils.js
 import {Card} from '../components/Card.js';
 import {Section} from '../components/Section.js';
 import {PopupWithImage} from '../components/PopupWithImage.js';
+import {PopupWithForm} from '../components/PopupWithForm.js';
 import {validationConfig, FormValidator} from '../components/FormValidator.js';
 
 const editButton = document.querySelector('.profile__edit-button');
@@ -11,19 +12,7 @@ const profileDescription = document.querySelector('.profile__description');
 const addButton = document.querySelector('.profile__add-button');
 const cardsSectionSelector = '.cards';
 
-// pop-up для редактирования профиля
-const popupProfile = document.querySelector('.popup_profile');
-const closeButtonPopupProfile = popupProfile.querySelector('.popup__close-button_type_profile');
-const popupInputName = popupProfile.querySelector('.popup__form-item_value_name');
-const popupInputDescription = popupProfile.querySelector('.popup__form-item_value_description');
-const popupProfileForm = popupProfile.querySelector('.popup__form_type_profile');
 
-// pop-up для добавления карточки
-const popupCards = document.querySelector('.popup_cards');
-const closeButtonPopupCards = popupCards.querySelector('.popup__close-button_type_cards');
-const popupInputPlaceName = popupCards.querySelector('.popup__form-item_value_place-name');
-const popupInputLink = popupCards.querySelector('.popup__form-item_value_link');
-const popupCardsForm = popupCards.querySelector('.popup__form_type_cards');
 
 
 function handleCardClick (link, alt, text) { // функция, передающаяся в класс Card: открывает поп-ап при нажатии на карточку. 
@@ -38,18 +27,16 @@ function cardsRenderer(item) { // функция, передающаяся в к
     cardsList.addItem(cardElement);
 }
 
-function handleProfileFormSubmit (evt) { // функция: отправить форму поп-апа редактирования профиля
-    evt.preventDefault(); 
-    profileName.textContent = popupInputName.value;
-    profileDescription.textContent = popupInputDescription.value;
-    closePopup(popupProfile);
+function handleProfileFormSubmit (inputs) { // функция: отправить форму поп-апа редактирования профиля
+    profileName.textContent = inputs.name;
+    profileDescription.textContent = inputs.description;
+    popupProfile.close();
 }
 
-function handleCardsFormSubmit (evt) { // функция: отправить форму поп-апа добавления новой карточки
-    evt.preventDefault(); 
-    const name = popupInputPlaceName.value;
-    const link = popupInputLink.value;
-    const alt = 'Фотография с подписью: ' + popupInputPlaceName.value;
+function handleCardsFormSubmit (inputs) { // функция: отправить форму поп-апа добавления новой карточки
+    const name = inputs.title;
+    const link = inputs.link;
+    const alt = 'Фотография с подписью: ' + inputs.title;
     const data = [{name, link, alt}];
     // создание карточки
     const card = new Section({
@@ -60,9 +47,24 @@ function handleCardsFormSubmit (evt) { // функция: отправить ф�
     );
       // отрисовка карточки
     card.renderItems();
-    popupCardsForm.reset();
-    closePopup(popupCards);
+
+    popupCards.close();
 }
+
+
+//Создадим поп-апы:
+const popupProfile = new PopupWithForm('.popup_profile', handleProfileFormSubmit);
+popupProfile.setEventListeners();
+const popupCards = new PopupWithForm('.popup_cards', handleCardsFormSubmit);
+popupCards.setEventListeners();
+
+// pop-up для редактирования профиля
+const popupInputName = document.querySelector('.popup_profile').querySelector('.popup__form-item_value_name');
+const popupInputDescription = document.querySelector('.popup_profile').querySelector('.popup__form-item_value_description');
+const popupProfileForm = document.querySelector('.popup_profile').querySelector('.popup__form_type_profile');
+
+// pop-up для добавления карточки
+const popupCardsForm = document.querySelector('.popup_cards').querySelector('.popup__form_type_cards');
 
 // Подключим валидацию всем формам поп-апов (описание класса FormValidator и его методов лежит в FormValidator.js)
 const profileFormValidator = new FormValidator(validationConfig, popupProfileForm); 
@@ -72,26 +74,19 @@ cardsFormValidator.enableValidation();
 
 // Слушатели поп-апа для редактирования профиля
 editButton.addEventListener('click', function () {
-    openPopup(popupProfile);
+    popupProfile.open();
+
     popupInputName.value = profileName.textContent;
     popupInputDescription.value = profileDescription.textContent;
+
     profileFormValidator.doStartValidity(); // метод класса FormValidator, лежащего в FormValidator.js
-});
-popupProfileForm.addEventListener('submit', handleProfileFormSubmit);
-closeButtonPopupProfile.addEventListener('click', function () { 
-    closePopup(popupProfile);
 });
 
 // Слушатели поп-апа для добавления карточки
 addButton.addEventListener('click', function () {
-    openPopup(popupCards);
+    popupCards.open();
     cardsFormValidator.doStartValidity(); // метод класса FormValidator, лежащего в FormValidator.js
 });
-popupCardsForm.addEventListener('submit', handleCardsFormSubmit);
-closeButtonPopupCards.addEventListener('click', function () { 
-    closePopup(popupCards);
- });
-
 
 // Добавление 6-ти стартовых карточек:
 const cardsList = new Section({
