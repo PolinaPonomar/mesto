@@ -1,7 +1,7 @@
 import {Popup} from './Popup.js';
 
 export class PopupWithImage extends Popup {
-    constructor(popupSelector) {
+    constructor (popupSelector) {
         super(popupSelector); // наследуем конструктор от родительского класса
         this._popupPhoto = this._popup.querySelector('.popup__photo');
         this._popupPhotoName = this._popup.querySelector('.popup__photo-name');

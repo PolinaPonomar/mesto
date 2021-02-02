@@ -8,7 +8,7 @@ const validationConfig = {
 };
 
 class FormValidator {
-    constructor(config, form) {
+    constructor (config, form) {
         this._form = form;
         this._formSelector = config.formSelector;
         this._inputSelector = config.inputSelector;

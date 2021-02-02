@@ -5,11 +5,11 @@ export class Section {
         this._container = document.querySelector(containerSelector);
     }
 
-    renderItems() { // функция: отрисовать каждый элемент с помощью переданной в конструктор функции
+    renderItems () { // функция: отрисовать каждый элемент с помощью переданной в конструктор функции
         this._renderedItems.forEach( item => this._renderer(item) );
     }
 
-    addItem(element) { // функция: добавить элемент в контейнер
+    addItem (element) { // функция: добавить элемент в контейнер
         this._container.prepend(element); // добавить DOM-элемент в начало контейнера
     }
 }
