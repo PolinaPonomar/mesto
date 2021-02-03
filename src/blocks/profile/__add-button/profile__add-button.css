@@ -5,7 +5,7 @@
     height: 50px;
     border: 2px solid white;
     border-radius: 2px;
-    background-image: url(./add_button.svg);
+    background-image: url(../../../images/add_button.svg);
     background-size: 16px 16px;
     background-repeat: no-repeat;
     background-position: center;

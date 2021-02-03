@@ -3,7 +3,7 @@
     background-color: transparent;
     border: none;
     align-self: flex-end;
-    background-image: url(./close_button.svg);
+    background-image: url(../../../images/close_button.svg);
     background-position: center;
     transition: opasity 0.5s ease-in;
 }

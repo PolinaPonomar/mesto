@@ -13,11 +13,4 @@ export class PopupWithImage extends Popup {
         this._popupPhotoName.textContent = textContent;
         super.open(); // наследуем функцию от родительского класса
     }
-
-    close () { // Полиморфизм. Расширяем функциональность функции закрытия поп-апа: очищаем поп-ап
-        this._popupPhoto.src = '';
-        this._popupPhoto.alt = '';
-        this._popupPhotoName.textContent = '';
-        super.close(); // наследуем функцию от родительского класса
-    }
 }

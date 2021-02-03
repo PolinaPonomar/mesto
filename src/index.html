@@ -7,20 +7,19 @@
     <meta name="keywords" content="Mesto фотографии лайк">
     <meta name="author" content="Полина Пономарева">
     <meta name="author" content="Яндекс Практикум">
-    <link rel="stylesheet" href="./pages/index.css">
     <title>Mesto</title>
 </head>
 <body>
     <div class="page">
 
         <header class="header">
-            <img class="header__logo" src="./blocks/header/__logo/logo.svg" alt="Логотип сайта">
+            <img class="header__logo" src="<%=require('./images/logo.svg')%>" alt="Логотип сайта">
         </header>
 
         <main class="content">
 
             <section class="profile">
-                <img class="profile__avatar" src="./blocks/profile/__avatar/avatar.png" alt="Фото профиля">
+                <img class="profile__avatar" src="<%=require('./images/avatar.png')%>" alt="Фото профиля">
                 <div class="profile__info">
                     <div class="profile__info-edit">
                         <h1 class="profile__name">Юнона Сонная</h1>
@@ -88,11 +87,7 @@
             </article>
         </template>
 
-
-
     </div>
-
-    <script type="module" src="./pages/index.js"></script>
     
 </body>
 </html>

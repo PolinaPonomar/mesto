@@ -4,7 +4,7 @@
     border: none;
     height: 18px;
     width: 21px;
-    background-image: url(./like.svg);
+    background-image: url(../../../images/like.svg);
     background-size: cover;
     transition: opasity 0.5s ease-in;
 }
