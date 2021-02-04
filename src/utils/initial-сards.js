@@ -5,13 +5,6 @@ const castleImage = new URL('../images/house-ghost.jpg', import.meta.url);
 const flowersImage = new URL('../images/flower_field.jpg', import.meta.url);
 const сhristmasImage = new URL('../images/new_Year.jpg', import.meta.url);
 
-// import lakeImage from './images/magic_lake.jpg';
-// import sunsetImage from './images/sunset.jpg';
-// import walkImage from './images/pink_walk.png';
-// import castleImage from './images/house-ghost.jpg';
-// import flowersImage from './images/flower_field.jpg';
-// import сhristmasImage from './images/new_Year.jpg';
-
 export const initialCards = [
     {
         name: 'Волшебное озеро',

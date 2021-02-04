@@ -1,12 +1,12 @@
 import './index.css';
 
-import {Card} from '../components/Card.js';
-import {Section} from '../components/Section.js';
-import {PopupWithImage} from '../components/PopupWithImage.js';
-import {PopupWithForm} from '../components/PopupWithForm.js';
-import {validationConfig, FormValidator} from '../components/FormValidator.js';
-import {UserInfo} from '../components/UserInfo.js';
-import {initialCards} from '../utils/initial-сards.js';
+import { Card } from '../components/Card.js';
+import { Section } from '../components/Section.js';
+import { PopupWithImage } from '../components/PopupWithImage.js';
+import { PopupWithForm } from '../components/PopupWithForm.js';
+import { validationConfig, FormValidator } from '../components/FormValidator.js';
+import { UserInfo } from '../components/UserInfo.js';
+import { initialCards } from '../utils/initial-сards.js';
 import { editButton,
     addButton,
     popupInputName,

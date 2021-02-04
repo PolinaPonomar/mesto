@@ -45,7 +45,7 @@ export class Card {
 
         //слушатель клика по фото
         this._photo.addEventListener('click', () => {
-            this._handleCardClick(this._link, this._alt,this._photoText.textContent); //функция, переданная в конструктор. Открывает поп-ап при нажатии на карточку
+            this._handleCardClick(this._link, this._alt, this._name); //функция, переданная в конструктор. Открывает поп-ап при нажатии на карточку
         });
     }
 

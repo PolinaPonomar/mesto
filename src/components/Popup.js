@@ -4,18 +4,21 @@ export class Popup {
         this._closeButton = this._popup.querySelector('.popup__close-button');
         // ищем контейнер, оборачивающий все, кроме фона поп-апа
         this._popupContainer = this._popup.querySelector('.popup__container');
+        // присваиваем константе функцию, чтобы потом передавать ее в коллбэк addEventListener и removeEventListener,
+        // т.к. константа будет давать ссылку на одну и ту же функцию
+        this._handleEscClose = this._handleEscClose.bind(this);
     } 
 
     open () {
         this._popup.classList.add('popup_opened');
         //добавим возможность закрыть по-ап, нажав Esc
-        document.addEventListener('keydown', this._handleEscClose.bind(this));
+        document.addEventListener('keydown', this._handleEscClose);
     }
 
     close () {
         this._popup.classList.remove('popup_opened');
         //удалим возможность закрыть по-ап, нажав Esc
-        document.removeEventListener('keydown', this._handleEscClose.bind(this));
+        document.removeEventListener('keydown', this._handleEscClose);
     }
 
     _handleEscClose (evt) { // функция: возможность закрывать поп-ап нажав на Esc
