@@ -17,6 +17,7 @@ module.exports = {
     port: 8080,
     open: true
   },
+  devtool: 'inline-source-map', //чтобы собранный код выглядел как нормальный (для отладки)
   module: {
     rules: [
       {
@@ -46,4 +47,4 @@ module.exports = {
     new MiniCssExtractPlugin()
   ] 
 
-}; 
+};
