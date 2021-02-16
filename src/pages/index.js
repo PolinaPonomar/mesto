@@ -1,19 +1,43 @@
 import './index.css';
 
+import { Api } from '../components/Api.js';
 import { Card } from '../components/Card.js';
 import { Section } from '../components/Section.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
 import { validationConfig, FormValidator } from '../components/FormValidator.js';
 import { UserInfo } from '../components/UserInfo.js';
-import { initialCards } from '../utils/initial-сards.js';
-import { editButton,
+// import { initialCards } from '../utils/initial-сards.js'; // удалить файл initialCards
+import { profileName, 
+    profilDescription, 
+    profileAvatar,
+    editButton,
     addButton,
     popupInputName,
     popupInputDescription,
     popupProfileForm,
-    popupCardsForm } from '../utils/constants.js'
+    popupCardsForm } from '../utils/constants.js';
 
+
+const api = new Api({
+    url: 'https://mesto.nomoreparties.co/v1/cohort-20/',
+    headers: {
+        authorization: '4ea02280-fa61-4e20-88ce-aa4e93f95126',
+        'Content-Type': 'application/json'
+    }
+})
+
+//Загрузка информации о пользователе с сервера
+api
+    .getUserInfo()
+    .then((data) => {
+        profileName.textContent = data.name;
+        profilDescription.textContent = data.about;
+        profileAvatar.src = data.avatar;
+    })
+    .catch((err) => {
+        console.log(err);
+    });
 
 function handleCardClick (link, alt, text) { // функция, передающаяся в класс Card: открывает поп-ап при нажатии на карточку. 
     const popupWithImage = new PopupWithImage('.popup_image');
@@ -21,21 +45,58 @@ function handleCardClick (link, alt, text) { // функция, передающ
     popupWithImage.setEventListeners();
 }
 
-function cardsRenderer (item) { // функция, передающаяся в класс Section в качестве фукнкции для отрисовки: отрисовывает карточки с фото.
+function cardsRenderer (item, cardsList) { // функция, передающаяся в класс Section в качестве фукнкции для отрисовки: отрисовывает карточки с фото.
     const card = new Card(item, '#card-template', handleCardClick);
     const cardElement = card.generateCard();
     cardsList.addItem(cardElement);
 }
 
-// Добавление 6-ти стартовых карточек:
-const cardsList = new Section({
-    items: initialCards,
-    renderer: cardsRenderer
-    },
-    '.cards'
-);
-// отрисовка карточек
-cardsList.renderItems();
+// Добавление существующих на сервере карточек:
+api
+    .getInitialCards()
+    .then((data) =>{
+        const initialCards = data.map(item => {
+            return {name: item.name, link: item.link, alt: 'Фотография с подписью: ' + item.name}
+        });
+        const cardsList = new Section({
+            items: initialCards, // массив данных карточек с сервера
+            renderer: (item) => { 
+                cardsRenderer(item, cardsList); 
+            }
+            },
+            '.cards'
+        );
+        // отрисовка карточек
+        cardsList.renderItems();
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+
+// // Загрузка данных существующих на сервере карточек:
+// const initialCards = api
+//     .getInitialCards()
+//     .then((data) =>{
+//         const initialCards = data.map(item => {
+//             return {name: item.name, link: item.link, alt: 'Фотография с подписью: ' + item.name}
+//         });
+//         console.log(initialCards);
+//         return initialCards
+//     })
+//     .catch((err) => {
+//         console.log(err);
+//     });
+// console.log(initialCards);
+
+// // Добавление 6-ти стартовых карточек:
+// const cardsList = new Section({
+//     items: initialCards,
+//     renderer: cardsRenderer
+//     },
+//     '.cards'
+// );
+// // отрисовка карточек
+// cardsList.renderItems();
 
 
 function handleProfileFormSubmit (inputs) { // функция: отправить форму поп-апа редактирования профиля
@@ -49,14 +110,16 @@ function handleCardsFormSubmit (inputs) { // функция: отправить 
     const alt = 'Фотография с подписью: ' + inputs.title;
     const data = [{name, link, alt}];
     // создание карточки
-    const card = new Section({
+    const cardList = new Section({
         items: data,
-        renderer: cardsRenderer
+        renderer: (item) => { 
+            cardsRenderer(item, cardsList); 
+        }
         },
         '.cards'
     );
       // отрисовка карточки
-    card.renderItems();
+    cardList.renderItems();
     popupCards.close();
 }
 
@@ -88,3 +151,25 @@ addButton.addEventListener('click', function () {
     popupCards.open();
     cardsFormValidator.doStartValidity(); // метод класса FormValidator
 });
+
+
+// return fetch('https://mesto.nomoreparties.co/v1/cohort-20/users/me', {
+//             method: 'GET',
+//             headers: {
+//                 authorization: '4ea02280-fa61-4e20-88ce-aa4e93f95126'
+//             }
+//         })
+//             .then((res) => {
+//                 if (res.ok) {
+//                     return res.json()
+//                 }
+//                 return Promise.reject(`Ошибка: ${res.status}`)
+//             })
+//             .then((data) => {
+//                 console.log(data.name, data.about, data.avatar);
+//             })
+//             .catch((err) => {
+//                 console.log(err);
+//             });
+
+//     }
