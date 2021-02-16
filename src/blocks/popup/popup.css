@@ -10,9 +10,9 @@
     align-items: center;
     visibility: hidden;
     opacity: 0;
-    transition: visibility 0s linear 0.4s, opacity 0.4s linear;
+    transition: opacity 0.4s linear, visibility 0s linear 0.4s;
 }
 
 .popup:hover {
-    cursor: pointer; 
+    cursor: pointer;
 }
