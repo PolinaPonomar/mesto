@@ -39,6 +39,9 @@ api
         console.log(err);
     });
 
+// Текущая информация о пользователе
+const userInfo = new UserInfo({nameSelector: '.profile__name', descriptionSelector: '.profile__description'});
+
 function handleCardClick (link, alt, text) { // функция, передающаяся в класс Card: открывает поп-ап при нажатии на карточку. 
     const popupWithImage = new PopupWithImage('.popup_image');
     popupWithImage.open(link, alt, text);
@@ -100,7 +103,14 @@ api
 
 
 function handleProfileFormSubmit (inputs) { // функция: отправить форму поп-апа редактирования профиля
-    userInfo.setUserInfo(inputs.name,inputs.description);
+    api
+        .renewUserInfo(inputs)
+        .then((data) => {
+            userInfo.setUserInfo(data.name, data.about);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
     popupProfile.close();
 }
 
@@ -122,9 +132,6 @@ function handleCardsFormSubmit (inputs) { // функция: отправить 
     cardList.renderItems();
     popupCards.close();
 }
-
-// Информация о пользователе
-const userInfo = new UserInfo({nameSelector: '.profile__name', descriptionSelector: '.profile__description'});
 
 //Создадим поп-апы с формами:
 const popupProfile = new PopupWithForm('.popup_profile', handleProfileFormSubmit);

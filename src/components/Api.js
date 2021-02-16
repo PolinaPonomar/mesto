@@ -28,7 +28,23 @@ export class Api {
                 }
                 return Promise.reject(`Ошибка: ${res.status}`)
             })
+    }
 
+    renewUserInfo(inputs) {
+        return fetch(`${this._url}users/me`, {
+            method: 'PATCH',
+            headers: this.headers,
+            body: JSON.stringify({
+                name: inputs.name,
+                about: inputs.description
+            })
+        })
+            .then((res) => {
+                if (res.ok) {
+                    return res.json()
+                }
+                return Promise.reject(`Ошибка: ${res.status}`)
+            })
     }
 
 }
