@@ -47,4 +47,22 @@ export class Api {
             })
     }
 
+    postNewCard(cardData) {
+        return fetch(`${this._url}cards`, {
+            method: 'POST',
+            headers: this.headers,
+            body: JSON.stringify({
+                name: cardData.name,
+                link: cardData.link,
+                alt: cardData.alt
+            })
+        })
+            .then((res) => {
+                if (res.ok) {
+                    return res.json()
+                }
+                return Promise.reject(`Ошибка: ${res.status}`)
+            })
+    }
+
 }

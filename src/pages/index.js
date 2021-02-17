@@ -16,7 +16,8 @@ import { profileName,
     popupInputName,
     popupInputDescription,
     popupProfileForm,
-    popupCardsForm } from '../utils/constants.js';
+    popupCardsForm,
+    container } from '../utils/constants.js';
 
 
 const api = new Api({
@@ -48,10 +49,10 @@ function handleCardClick (link, alt, text) { // функция, передающ
     popupWithImage.setEventListeners();
 }
 
-function cardsRenderer (item, cardsList) { // функция, передающаяся в класс Section в качестве фукнкции для отрисовки: отрисовывает карточки с фото.
+function cardsRenderer (item, section) { // функция, передающаяся в класс Section в качестве фукнкции для отрисовки: отрисовывает карточки с фото.
     const card = new Card(item, '#card-template', handleCardClick);
     const cardElement = card.generateCard();
-    cardsList.addItem(cardElement);
+    section.addItem(cardElement);
 }
 
 // Добавление существующих на сервере карточек:
@@ -61,6 +62,7 @@ api
         const initialCards = data.map(item => {
             return {name: item.name, link: item.link, alt: 'Фотография с подписью: ' + item.name}
         });
+        //создание контейнера с карточками
         const cardsList = new Section({
             items: initialCards, // массив данных карточек с сервера
             renderer: (item) => { 
@@ -118,18 +120,19 @@ function handleCardsFormSubmit (inputs) { // функция: отправить 
     const name = inputs.title;
     const link = inputs.link;
     const alt = 'Фотография с подписью: ' + inputs.title;
-    const data = [{name, link, alt}];
-    // создание карточки
-    const cardList = new Section({
-        items: data,
-        renderer: (item) => { 
-            cardsRenderer(item, cardsList); 
-        }
-        },
-        '.cards'
-    );
-      // отрисовка карточки
-    cardList.renderItems();
+    const cardData = {name, link, alt};
+    api
+        .postNewCard(cardData)
+        .then((data) => {
+            console.log(data);
+            // создание карточки
+            const card = new Card(data, '#card-template', handleCardClick);
+            const cardElement = card.generateCard();
+            container.prepend(cardElement); //ПЛОХО: секшон уже создан!
+        })
+        .catch((err) => {
+            console.log(err);
+        });
     popupCards.close();
 }
 
@@ -158,25 +161,3 @@ addButton.addEventListener('click', function () {
     popupCards.open();
     cardsFormValidator.doStartValidity(); // метод класса FormValidator
 });
-
-
-// return fetch('https://mesto.nomoreparties.co/v1/cohort-20/users/me', {
-//             method: 'GET',
-//             headers: {
-//                 authorization: '4ea02280-fa61-4e20-88ce-aa4e93f95126'
-//             }
-//         })
-//             .then((res) => {
-//                 if (res.ok) {
-//                     return res.json()
-//                 }
-//                 return Promise.reject(`Ошибка: ${res.status}`)
-//             })
-//             .then((data) => {
-//                 console.log(data.name, data.about, data.avatar);
-//             })
-//             .catch((err) => {
-//                 console.log(err);
-//             });
-
-//     }
