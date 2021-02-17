@@ -11,6 +11,4 @@ const popupProfileForm = profilePopup.querySelector('.popup__form_type_profile')
 // pop-up для добавления карточки
 const popupCardsForm = document.querySelector('.popup_cards').querySelector('.popup__form_type_cards');
 
-const container = document.querySelector('.cards');
-
-export {profileName, profilDescription, profileAvatar, editButton, addButton, popupInputName, popupInputDescription, popupProfileForm, popupCardsForm, container }
+export {profileName, profilDescription, profileAvatar, editButton, addButton, popupInputName, popupInputDescription, popupProfileForm, popupCardsForm}

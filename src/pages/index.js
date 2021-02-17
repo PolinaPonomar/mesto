@@ -16,8 +16,7 @@ import { profileName,
     popupInputName,
     popupInputDescription,
     popupProfileForm,
-    popupCardsForm,
-    container } from '../utils/constants.js';
+    popupCardsForm } from '../utils/constants.js';
 
 
 const api = new Api({
@@ -26,9 +25,9 @@ const api = new Api({
         authorization: '4ea02280-fa61-4e20-88ce-aa4e93f95126',
         'Content-Type': 'application/json'
     }
-})
+});
 
-//Загрузка информации о пользователе с сервера
+// Загрузка информации о пользователе с сервера
 api
     .getUserInfo()
     .then((data) => {
@@ -49,60 +48,35 @@ function handleCardClick (link, alt, text) { // функция, передающ
     popupWithImage.setEventListeners();
 }
 
-function cardsRenderer (item, section) { // функция, передающаяся в класс Section в качестве фукнкции для отрисовки: отрисовывает карточки с фото.
+function cardsRenderer (item) { // функция, передающаяся в класс Section в качестве фукнкции для отрисовки: отрисовывает карточки с фото.
     const card = new Card(item, '#card-template', handleCardClick);
     const cardElement = card.generateCard();
-    section.addItem(cardElement);
+    cardsList.addItem(cardElement); // добавляем созданную карточку в контейнер
 }
+
+// Cоздание контейнера для карточек
+const cardsList = new Section({
+    renderer: cardsRenderer
+    },
+    '.cards'
+);
 
 // Добавление существующих на сервере карточек:
 api
     .getInitialCards()
-    .then((data) =>{
-        const initialCards = data.map(item => {
+    .then((data) =>{ 
+        //данные приходят сортированными от самого позднего поста, до самого раннего => 
+        //переворачиваю массив (от раннего до позднего), преобразую
+        //и с начала до конца каждую карточку добавляю в начало контейнера (это происходит при отрисовке карточек ниже (addItem класса Section))
+        const initialCards = data.reverse().map(item => { 
             return {name: item.name, link: item.link, alt: 'Фотография с подписью: ' + item.name}
         });
-        //создание контейнера с карточками
-        const cardsList = new Section({
-            items: initialCards, // массив данных карточек с сервера
-            renderer: (item) => { 
-                cardsRenderer(item, cardsList); 
-            }
-            },
-            '.cards'
-        );
-        // отрисовка карточек
-        cardsList.renderItems();
+        // Отрисовка карточек по полученным данным в ранее созданный контейнер
+        cardsList.renderItems(initialCards); // 
     })
     .catch((err) => {
         console.log(err);
     });
-
-// // Загрузка данных существующих на сервере карточек:
-// const initialCards = api
-//     .getInitialCards()
-//     .then((data) =>{
-//         const initialCards = data.map(item => {
-//             return {name: item.name, link: item.link, alt: 'Фотография с подписью: ' + item.name}
-//         });
-//         console.log(initialCards);
-//         return initialCards
-//     })
-//     .catch((err) => {
-//         console.log(err);
-//     });
-// console.log(initialCards);
-
-// // Добавление 6-ти стартовых карточек:
-// const cardsList = new Section({
-//     items: initialCards,
-//     renderer: cardsRenderer
-//     },
-//     '.cards'
-// );
-// // отрисовка карточек
-// cardsList.renderItems();
-
 
 function handleProfileFormSubmit (inputs) { // функция: отправить форму поп-апа редактирования профиля
     api
@@ -124,11 +98,8 @@ function handleCardsFormSubmit (inputs) { // функция: отправить 
     api
         .postNewCard(cardData)
         .then((data) => {
-            console.log(data);
-            // создание карточки
-            const card = new Card(data, '#card-template', handleCardClick);
-            const cardElement = card.generateCard();
-            container.prepend(cardElement); //ПЛОХО: секшон уже создан!
+            // Отрисовка карточки по полученным данным в ранее созданный контейнер
+            cardsList.renderItems([data]);
         })
         .catch((err) => {
             console.log(err);
