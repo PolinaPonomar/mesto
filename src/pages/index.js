@@ -69,7 +69,7 @@ api
         //переворачиваю массив (от раннего до позднего), преобразую
         //и с начала до конца каждую карточку добавляю в начало контейнера (это происходит при отрисовке карточек ниже (addItem класса Section))
         const initialCards = data.reverse().map(item => { 
-            return {name: item.name, link: item.link, alt: 'Фотография с подписью: ' + item.name}
+            return {name: item.name, link: item.link, alt: 'Фотография с подписью: ' + item.name, likes: item.likes}
         });
         // Отрисовка карточек по полученным данным в ранее созданный контейнер
         cardsList.renderItems(initialCards); // 
@@ -98,6 +98,7 @@ function handleCardsFormSubmit (inputs) { // функция: отправить 
     api
         .postNewCard(cardData)
         .then((data) => {
+            console.log(data);
             // Отрисовка карточки по полученным данным в ранее созданный контейнер
             cardsList.renderItems([data]);
         })

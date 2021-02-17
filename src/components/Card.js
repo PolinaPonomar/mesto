@@ -3,11 +3,13 @@ export class Card {
         this._link = data.link;
         this._name = data.name;
         this._alt = data.alt;
+        this._likesNumber = data.likes.length;
         this._cardSelector = cardSelector;
         this._handleCardClick = handleCardClick;
 
         this._element = this._getTemplate();
         this._likeButton = this._element.querySelector('.card__like-button');
+        this._likeСounter = this._element.querySelector('.card__likes-number');
         this._deleteButton = this._element.querySelector('.card__delete-button');
         this._photo = this._element.querySelector('.card__photo');
         this._photoText = this._element.querySelector('.card__text');
@@ -53,6 +55,7 @@ export class Card {
         this._photoText.textContent = this._name;
         this._photo.src = this._link;
         this._photo.alt = this._alt;
+        this._likeСounter.textContent = this._likesNumber;
 
         this._setEventListeners();
         
