@@ -75,13 +75,25 @@
                 <p class="popup__photo-name">подпись к фото</p>
             </div>
         </div>
-        
+
         <div class="popup popup_confirm">
             <div class="popup__container">
                 <button type="button" aria-label="close" class="popup__close-button popup__close-button_type_confirm"></button>
                 <form class="popup__form popup__form_type_confirm" name="confirm-form" novalidate>
                     <h2 class="popup__header popup__header_type_confirm">Вы уверены?</h2>
                     <button type="submit" class="popup__save-button popup__save-button_type_confirm">Да</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="popup popup_avatar popup_opened">
+            <div class="popup__container">
+                <button type="button" aria-label="close" class="popup__close-button popup__close-button_type_avatar"></button>
+                <form class="popup__form popup__form_type_avatar" name="avatar-form" novalidate>
+                    <h2 class="popup__header popup__header_type_avatar">Обновить аватар</h2>
+                    <input id="avatar-link-input" type="url" class="popup__form-item popup__form-item_type_avatar popup__form-item_value_link" name="link" required placeholder="Ссылка на фото">
+                    <span id="avatar-link-input-error" class="popup__form-item-error popup__form-item-error_type_avatar"></span>
+                    <button type="submit" class="popup__save-button popup__save-button_type_avatar">Сохранить</button>
                 </form>
             </div>
         </div>

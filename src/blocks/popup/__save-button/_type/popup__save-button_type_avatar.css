@@ -1,0 +1,11 @@
+.popup__save-button_type_avatar {
+    margin: 16px 0 30px;
+    width: calc(100% - 2*20px);
+}
+
+@media screen and (min-width: 768px) {
+    .popup__save-button_type_avatar {
+        margin: 18px 0 37px;
+        width: calc(100% - 2*36px);
+    }   
+}
