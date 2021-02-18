@@ -5,6 +5,7 @@ import { Card } from '../components/Card.js';
 import { Section } from '../components/Section.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
+import { PopupWithConfirm } from '../components/PopupWithConfirm.js';
 import { validationConfig, FormValidator } from '../components/FormValidator.js';
 import { UserInfo } from '../components/UserInfo.js';
 // import { initialCards } from '../utils/initial-сards.js'; // удалить файл initialCards
@@ -27,32 +28,21 @@ const api = new Api({
     }
 });
 
+// Текущая информация о пользователе
+const userInfo = new UserInfo({nameSelector: '.profile__name', descriptionSelector: '.profile__description', avatarSelector: '.profile__avatar'});
+
 // Загрузка информации о пользователе с сервера
 api
     .getUserInfo()
     .then((data) => {
-        profileName.textContent = data.name;
-        profilDescription.textContent = data.about;
-        profileAvatar.src = data.avatar;
+        userInfo.setUserInfo(data.name,data.about);
+        userInfo.setUserAvatar(data.avatar);
+        userInfo.setUserId(data._id);
     })
     .catch((err) => {
         console.log(err);
     });
 
-// Текущая информация о пользователе
-const userInfo = new UserInfo({nameSelector: '.profile__name', descriptionSelector: '.profile__description'});
-
-function handleCardClick (link, alt, text) { // функция, передающаяся в класс Card: открывает поп-ап при нажатии на карточку. 
-    const popupWithImage = new PopupWithImage('.popup_image');
-    popupWithImage.open(link, alt, text);
-    popupWithImage.setEventListeners();
-}
-
-function cardsRenderer (item) { // функция, передающаяся в класс Section в качестве фукнкции для отрисовки: отрисовывает карточки с фото.
-    const card = new Card(item, '#card-template', handleCardClick, 'f760e1c951594c2949f4a693'); // как вытащить свой id?
-    const cardElement = card.generateCard();
-    cardsList.addItem(cardElement); // добавляем созданную карточку в контейнер
-}
 
 // Cоздание контейнера для карточек
 const cardsList = new Section({
@@ -61,19 +51,52 @@ const cardsList = new Section({
     '.cards'
 );
 
+const popupWithImage = new PopupWithImage('.popup_image');
+popupWithImage.setEventListeners();
+const popupWithConfirm = new PopupWithConfirm('.popup_confirm', handlerConfirmFormSubmit);
+popupWithConfirm.setEventListeners();
+
+function cardsRenderer (item) { // функция, передающаяся в класс Section в качестве фукнкции для отрисовки: отрисовывает карточки с фото.
+    const card = new Card(
+        item,
+        userInfo.getUserInfo().id, //id находится, т.к. в очереди на сервер его я получила раньше, чем кардс
+        '#card-template',
+        {handleCardClick: (link, alt, text) => { //  функция: открывает поп-ап при нажатии на карточку
+            popupWithImage.open(link, alt, text);
+        },
+        handleDeleteClick: (card, cardId) => {
+            popupWithConfirm.open(card, cardId);
+        },
+    }); 
+    const cardElement = card.generateCard();
+    cardsList.addItem(cardElement); // добавляем созданную карточку в контейнер
+}
+
+function handlerConfirmFormSubmit(card, cardId) { // функция: отправить поп-ап удаления карточки
+    api
+        .deleteCard(cardId)
+        .then( (answer) => {
+            console.log(answer); // тут сообщение, что пост удален
+            card.remove();
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    popupWithConfirm.close();
+}
+
 // Добавление существующих на сервере карточек:
 api
     .getInitialCards()
-    .then((data) =>{ 
-        print(data);
-        //данные приходят сортированными от самого позднего поста, до самого раннего => 
-        //переворачиваю массив (от раннего до позднего), преобразую
-        //и с начала до конца каждую карточку добавляю в начало контейнера (это происходит при отрисовке карточек ниже (addItem класса Section))
-        const initialCards = data.reverse().map(item => { 
-            return {name: item.name, link: item.link, alt: 'Фотография с подписью: ' + item.name, likes: item.likes, owner: item.owner} //ПЕРЕСТАТЬ самой формировать данные?
+    .then((data) =>{
+        data.forEach(item => { // добавляю в данные подгруженных карточек alt
+            item.alt = 'Фотография с подписью: ' + item.name
         });
+        //данные приходят сортированными от самого позднего поста, до самого раннего => переворачиваю массив (от раннего до позднего)
+        data.reverse()
+        //и с начала до конца каждую карточку добавляю в начало контейнера (=> самая поздняя карточка окажетсяя первой в контейнере):
         // Отрисовка карточек по полученным данным в ранее созданный контейнер
-        cardsList.renderItems(initialCards); // 
+        cardsList.renderItems(data); // 
     })
     .catch((err) => {
         console.log(err);
@@ -99,7 +122,8 @@ function handleCardsFormSubmit (inputs) { // функция: отправить 
     api
         .postNewCard(cardData)
         .then((data) => {
-            console.log(data); //  ТУТ нет альта...
+            data.alt = 'Фотография с подписью: ' + data.name;//  на сервере не было альта, теперь есть
+            console.log(data);
             // Отрисовка карточки по полученным данным в ранее созданный контейнер
             cardsList.renderItems([data]);
         })
