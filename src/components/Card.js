@@ -1,11 +1,16 @@
+import { PopupWithConfirm } from '../components/PopupWithConfirm.js';
+
 export class Card {
-    constructor (data, cardSelector, handleCardClick) {
+    constructor (data, cardSelector, handleCardClick, accountId) {
         this._link = data.link;
         this._name = data.name;
         this._alt = data.alt;
+        this._ownerId = data.owner._id;
         this._likesNumber = data.likes.length;
+
         this._cardSelector = cardSelector;
         this._handleCardClick = handleCardClick;
+        this._accountId = accountId;
 
         this._element = this._getTemplate();
         this._likeButton = this._element.querySelector('.card__like-button');
@@ -21,6 +26,10 @@ export class Card {
           .content
           .querySelector('.card')
           .cloneNode(true);
+
+        if (this._ownerId !== this._accountId) { // если карточка не моя - удаляю
+            cardElement.querySelector('.card__delete-button').remove();
+        }
         return cardElement;
     }
       
@@ -29,6 +38,7 @@ export class Card {
     }
 
     _handleDeleteClick () { // функция: удалить карточку
+        // тут открываем поп-ап конферм
         this._element.remove();
         // зануляем, чтобы нельзя было сослаться на эту ноду дом дерева
         this._element = null;
@@ -40,10 +50,12 @@ export class Card {
             this._handleLikeClick();
         });
 
-        //слушатель удаления
-        this._deleteButton.addEventListener('click', () =>{
-            this._handleDeleteClick();
-        });
+        // если карточка моя - вешаю слушатель удаления
+        if (this._ownerId == this._accountId) {
+            this._deleteButton.addEventListener('click', () =>{
+                this._handleDeleteClick();
+            });
+        }
 
         //слушатель клика по фото
         this._photo.addEventListener('click', () => {

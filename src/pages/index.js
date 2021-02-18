@@ -49,7 +49,7 @@ function handleCardClick (link, alt, text) { // функция, передающ
 }
 
 function cardsRenderer (item) { // функция, передающаяся в класс Section в качестве фукнкции для отрисовки: отрисовывает карточки с фото.
-    const card = new Card(item, '#card-template', handleCardClick);
+    const card = new Card(item, '#card-template', handleCardClick, 'f760e1c951594c2949f4a693'); // как вытащить свой id?
     const cardElement = card.generateCard();
     cardsList.addItem(cardElement); // добавляем созданную карточку в контейнер
 }
@@ -65,11 +65,12 @@ const cardsList = new Section({
 api
     .getInitialCards()
     .then((data) =>{ 
+        print(data);
         //данные приходят сортированными от самого позднего поста, до самого раннего => 
         //переворачиваю массив (от раннего до позднего), преобразую
         //и с начала до конца каждую карточку добавляю в начало контейнера (это происходит при отрисовке карточек ниже (addItem класса Section))
         const initialCards = data.reverse().map(item => { 
-            return {name: item.name, link: item.link, alt: 'Фотография с подписью: ' + item.name, likes: item.likes}
+            return {name: item.name, link: item.link, alt: 'Фотография с подписью: ' + item.name, likes: item.likes, owner: item.owner} //ПЕРЕСТАТЬ самой формировать данные?
         });
         // Отрисовка карточек по полученным данным в ранее созданный контейнер
         cardsList.renderItems(initialCards); // 
@@ -98,7 +99,7 @@ function handleCardsFormSubmit (inputs) { // функция: отправить 
     api
         .postNewCard(cardData)
         .then((data) => {
-            console.log(data);
+            console.log(data); //  ТУТ нет альта...
             // Отрисовка карточки по полученным данным в ранее созданный контейнер
             cardsList.renderItems([data]);
         })
