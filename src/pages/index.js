@@ -164,7 +164,6 @@ function handleCardsFormSubmit (inputs) { // функция: отправить 
         .postNewCard(cardData)
         .then((data) => {
             data.alt = 'Фотография с подписью: ' + data.name;
-            console.log(data);
             // отрисовка карточки по полученным данным в ранее созданный контейнер
             cardsList.renderItems([data]);
         })
