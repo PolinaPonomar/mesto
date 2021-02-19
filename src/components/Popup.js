@@ -7,7 +7,7 @@ export class Popup {
         // присваиваем константе функцию, чтобы потом передавать ее в коллбэк addEventListener и removeEventListener,
         // т.к. константа будет давать ссылку на одну и ту же функцию
         this._handleEscClose = this._handleEscClose.bind(this);
-    } 
+    }
 
     open () {
         this._popup.classList.add('popup_opened');

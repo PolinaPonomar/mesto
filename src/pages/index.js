@@ -17,7 +17,8 @@ import {
     popupInputDescription,
     popupProfileForm,
     popupAvatarForm,
-    popupCardsForm } from '../utils/constants.js';
+    popupCardsForm 
+} from '../utils/constants.js';
 
 
 const api = new Api({
@@ -120,6 +121,7 @@ api
     });
 
 function handleProfileFormSubmit (inputs) { // функция: отправить форму поп-апа редактирования профиля
+    popupProfile.checkloading(true);
     api
         .renewUserInfo(inputs)
         .then((data) => {
@@ -127,11 +129,15 @@ function handleProfileFormSubmit (inputs) { // функция: отправит�
         })
         .catch((err) => {
             console.log(err);
+        })
+        .finally(() => {
+            popupProfile.checkloading(false);
         });
     popupProfile.close();
 }
 
-function handleAvatarFormSubmit (input) { // функция: отправить форму поп-апа редактирования профиля
+function handleAvatarFormSubmit (input) { // функция: отправить форму поп-апа редактирования аватара
+    popupAvatar.checkloading(true);
     api
         .changeAvatar(input.link)
         .then((data) => {
@@ -139,11 +145,15 @@ function handleAvatarFormSubmit (input) { // функция: отправить 
         })
         .catch((err) => {
             console.log(err);
+        })
+        .finally(() => {
+            popupAvatar.checkloading(false);
         });
     popupAvatar.close();
 }
 
 function handleCardsFormSubmit (inputs) { // функция: отправить форму поп-апа добавления новой карточки
+    popupCards.checkloading(true);
     const name = inputs.title;
     const link = inputs.link;
     const alt = 'Фотография с подписью: ' + inputs.title;
@@ -158,6 +168,9 @@ function handleCardsFormSubmit (inputs) { // функция: отправить 
         })
         .catch((err) => {
             console.log(err);
+        })
+        .finally(() => {
+            popupCards.checkloading(false);
         });
     popupCards.close();
 }

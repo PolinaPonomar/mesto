@@ -6,6 +6,16 @@ export class PopupWithForm extends Popup {
         this._handlerFormSubmit = handlerFormSubmit;
         this._form = this._popup.querySelector('.popup__form');
         this._inputList = this._form.querySelectorAll('.popup__form-item');
+        this._submitButton = this._form.querySelector('.popup__save-button');
+        this._startSubmitButtonText = this._submitButton.textContent;
+    }
+
+    checkloading (isLoading) {
+        if (isLoading) {
+            this._submitButton.textContent = 'Сохранение...';
+        } else {
+            this._submitButton.textContent = this._startSubmitButtonText;
+        }
     }
 
     _getInputValues () { // функция: возвращаем объект с названиями строк ввода формы и их содержанием

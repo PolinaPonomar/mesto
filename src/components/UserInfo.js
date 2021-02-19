@@ -15,7 +15,7 @@ export class UserInfo {
         return profileData
     }
 
-    setUserId (id) {
+    setUserId (id) { //функция: в информацию о пользователе добавить его id
         this._id = id;
     }
 
