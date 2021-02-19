@@ -9,14 +9,14 @@ import { PopupWithConfirm } from '../components/PopupWithConfirm.js';
 import { validationConfig, FormValidator } from '../components/FormValidator.js';
 import { UserInfo } from '../components/UserInfo.js';
 // import { initialCards } from '../utils/initial-сards.js'; // удалить файл initialCards
-import { profileName, 
-    profilDescription, 
-    profileAvatar,
-    editButton,
+import {
+    editAvatarButton,
+    editProfileButton,
     addButton,
     popupInputName,
     popupInputDescription,
     popupProfileForm,
+    popupAvatarForm,
     popupCardsForm } from '../utils/constants.js';
 
 
@@ -131,6 +131,18 @@ function handleProfileFormSubmit (inputs) { // функция: отправит�
     popupProfile.close();
 }
 
+function handleAvatarFormSubmit (input) { // функция: отправить форму поп-апа редактирования профиля
+    api
+        .changeAvatar(input.link)
+        .then((data) => {
+            userInfo.setUserAvatar(data.avatar);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    popupAvatar.close();
+}
+
 function handleCardsFormSubmit (inputs) { // функция: отправить форму поп-апа добавления новой карточки
     const name = inputs.title;
     const link = inputs.link;
@@ -155,23 +167,33 @@ const popupProfile = new PopupWithForm('.popup_profile', handleProfileFormSubmit
 popupProfile.setEventListeners();
 const popupCards = new PopupWithForm('.popup_cards', handleCardsFormSubmit);
 popupCards.setEventListeners();
+const popupAvatar = new PopupWithForm('.popup_avatar', handleAvatarFormSubmit);
+popupAvatar.setEventListeners();
 
 // Подключим валидацию всем формам поп-апов
 const profileFormValidator = new FormValidator(validationConfig, popupProfileForm); 
 profileFormValidator.enableValidation();
 const cardsFormValidator = new FormValidator(validationConfig, popupCardsForm);
 cardsFormValidator.enableValidation();
+const avatarFormValidator = new FormValidator(validationConfig, popupAvatarForm);
+avatarFormValidator.enableValidation();
 
-// Слушатели поп-апа для редактирования профиля
-editButton.addEventListener('click', function () {
+// Слушатель поп-апа для редактирования профиля
+editProfileButton.addEventListener('click', function () {
     popupProfile.open();
     popupInputName.value = userInfo.getUserInfo().name; // getUserInfo - метод класса UserInfo
     popupInputDescription.value = userInfo.getUserInfo().description;
     profileFormValidator.doStartValidity(); // метод класса FormValidator
 });
 
-// Слушатели поп-апа для добавления карточки
+// Слушатель поп-апа для добавления карточки
 addButton.addEventListener('click', function () {
     popupCards.open();
     cardsFormValidator.doStartValidity(); // метод класса FormValidator
+});
+
+// Слушатель поп-апа для редактирования аватара
+editAvatarButton.addEventListener('click', function () {
+    popupAvatar.open();
+    avatarFormValidator.doStartValidity(); // метод класса FormValidator
 });

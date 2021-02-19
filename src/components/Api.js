@@ -89,7 +89,6 @@ export class Api {
                 }
                 return Promise.reject(`Ошибка: ${res.status}`)
             })
-
     }
 
     deleteLike (cardId) {
@@ -103,7 +102,22 @@ export class Api {
                 }
                 return Promise.reject(`Ошибка: ${res.status}`)
             })
-        
+    }
+
+    changeAvatar (inputAvatar) {
+        return fetch(`${this._url}users/me/avatar`, {
+            method: 'PATCH',
+            headers: this.headers,
+            body: JSON.stringify({
+                avatar: inputAvatar
+            })
+        })
+            .then((res) => {
+                if (res.ok) {
+                    return res.json()
+                }
+                return Promise.reject(`Ошибка: ${res.status}`)
+            })
     }
 
 }
