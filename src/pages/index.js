@@ -123,7 +123,7 @@ api
 ;
 
 function handleProfileFormSubmit (inputs) { // функция: отправить форму поп-апа редактирования профиля
-    popupProfile.checkloading(true);
+    popupProfile.checkloading(true); // уведомить пользователя о загрузке
     api
         .renewUserInfo(inputs)
         .then((data) => {
@@ -139,7 +139,7 @@ function handleProfileFormSubmit (inputs) { // функция: отправит�
 }
 
 function handleAvatarFormSubmit (input) { // функция: отправить форму поп-апа редактирования аватара
-    popupAvatar.checkloading(true);
+    popupAvatar.checkloading(true); // уведомить пользователя о загрузке
     api
         .changeAvatar(input.link)
         .then((data) => {
@@ -155,7 +155,7 @@ function handleAvatarFormSubmit (input) { // функция: отправить 
 }
 
 function handleCardsFormSubmit (inputs) { // функция: отправить форму поп-апа добавления новой карточки
-    popupCards.checkloading(true);
+    popupCards.checkloading(true); // уведомить пользователя о загрузке
     const name = inputs.title;
     const link = inputs.link;
     const alt = 'Фотография с подписью: ' + inputs.title;
