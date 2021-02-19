@@ -67,7 +67,24 @@ function cardsRenderer (item) { // функция, передающаяся в �
         handleDeleteClick: (card, cardId) => {
             popupWithConfirm.open(card, cardId);
         },
-    }); 
+        handleLikeClick: (cardId, likeButton, likeСounter) => {
+            likeButton.classList.toggle('card__like-button_active');
+            if ( likeButton.classList.contains('card__like-button_active') ) {
+                api
+                    .putLike(cardId)
+                    .then( (data) => {
+                        likeСounter.textContent = data.likes.length;
+                    })
+            } else {
+                api
+                    .deleteLike(cardId)
+                    .then( (data) => {
+                        likeСounter.textContent = data.likes.length;
+                    })
+            }
+        },
+        }
+    ); 
     const cardElement = card.generateCard();
     cardsList.addItem(cardElement); // добавляем созданную карточку в контейнер
 }

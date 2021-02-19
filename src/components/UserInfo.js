@@ -16,7 +16,7 @@ export class UserInfo {
     }
 
     setUserId (id) {
-        this._id = id
+        this._id = id;
     }
 
     setUserAvatar (inputAvatar) { //функция: задать аватар пользователя на странице

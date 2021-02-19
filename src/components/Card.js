@@ -1,17 +1,19 @@
 export class Card {
-    constructor (data, accountId, cardSelector, {handleCardClick, handleDeleteClick}) {
+    constructor (data, accountId, cardSelector, {handleCardClick, handleDeleteClick, handleLikeClick}) {
         this._link = data.link;
         this._name = data.name;
         this._alt = data.alt;
         this._ownerId = data.owner._id;
         this._cardId = data._id;
         this._likesNumber = data.likes.length;
+        this._likedUsers = data.likes.map(item =>{ return item._id});
 
         this._accountId = accountId;
 
         this._cardSelector = cardSelector;
         this._handleCardClick = handleCardClick;
         this._handleDeleteClick = handleDeleteClick;
+        this._handleLikeClick = handleLikeClick;
 
         this._element = this._getTemplate();
         this._likeButton = this._element.querySelector('.card__like-button');
@@ -28,15 +30,15 @@ export class Card {
           .querySelector('.card')
           .cloneNode(true);
 
-        if (this._ownerId !== this._accountId) { // если карточка не моя - удаляю
+        if (this._ownerId !== this._accountId) { // если карточка не моя - удаляю значок удаления
             cardElement.querySelector('.card__delete-button').remove();
         }
         return cardElement;
     }
       
-    _handleLikeClick () { // функция: поставить/убрать лайк
-        this._likeButton.classList.toggle('card__like-button_active');
-    }
+    // _handleLikeClick () { // функция: поставить/убрать лайк
+    //     this._likeButton.classList.toggle('card__like-button_active');
+    // }
 
     // deleteCard () { // функция: удалить карточку
     //     this._element.remove();
@@ -47,7 +49,7 @@ export class Card {
     _setEventListeners () { // функция: добавить слушатели карточке
         //слушатель лайка
         this._likeButton.addEventListener('click', () => {
-            this._handleLikeClick();
+            this._handleLikeClick(this._cardId, this._likeButton, this._likeСounter);
         });
 
         // если карточка моя - вешаю слушатель удаления
@@ -68,6 +70,10 @@ export class Card {
         this._photo.src = this._link;
         this._photo.alt = this._alt;
         this._likeСounter.textContent = this._likesNumber;
+
+        if (this._likedUsers.some(item => {return item == this._accountId})) { // чтобы при обновлении страницы был виден мой лайк
+            this._likeButton.classList.add('card__like-button_active');
+        }
 
         this._setEventListeners();
         
