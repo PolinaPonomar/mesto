@@ -45,35 +45,47 @@
 
         <div class="popup popup_profile">
             <div class="popup__container">
-                <button type="button" aria-label="close" class="popup__close-button popup__close-button_type_profile"></button>
-                <form class="popup__form popup__form_type_profile" name="personal-info-form" novalidate>
-                    <h2 class="popup__header popup__header_type_profile">Редактировать профиль</h2>
-                    <input type="text" id="name-input" class="popup__form-item popup__form-item_type_profile popup__form-item_value_name" name="name" minlength=2 maxlength=40 required placeholder="Имя">
-                    <span id="name-input-error" class="popup__form-item-error popup__form-item-error_type_profile"></span>
-                    <input type="text" id="description-input" class="popup__form-item popup__form-item_type_profile popup__form-item_value_description" name="description"  minlength=2 maxlength=200 required placeholder="О себе">
-                    <span id="description-input-error" class="popup__form-item-error popup__form-item-error_type_profile"></span>
-                    <button type="submit" class="popup__save-button popup__save-button_type_profile">Сохранить</button>
+                <button type="button" aria-label="close" class="popup__close-button"></button>
+                <form class="popup__form" name="personal-info-form" novalidate>
+                    <h2 class="popup__header">Редактировать профиль</h2>
+                    <input id="name-input" type="text" class="popup__form-item popup__form-item_value_name" name="name" minlength=2 maxlength=40 required placeholder="Имя">
+                    <span id="name-input-error" class="popup__form-item-error"></span>
+                    <input id="description-input" type="text" class="popup__form-item popup__form-item_value_description" name="description"  minlength=2 maxlength=200 required placeholder="О себе">
+                    <span id="description-input-error" class="popup__form-item-error"></span>
+                    <button type="submit" class="popup__save-button">Сохранить</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="popup popup_avatar">
+            <div class="popup__container">
+                <button type="button" aria-label="close" class="popup__close-button"></button>
+                <form class="popup__form" name="avatar-form" novalidate>
+                    <h2 class="popup__header">Обновить аватар</h2>
+                    <input id="avatar-link-input" type="url" class="popup__form-item" name="link" required placeholder="Ссылка на фото">
+                    <span id="avatar-link-input-error" class="popup__form-item-error"></span>
+                    <button type="submit" class="popup__save-button">Сохранить</button>
                 </form>
             </div>
         </div>
 
         <div class="popup popup_cards">
             <div class="popup__container">
-                <button type="button" aria-label="close" class="popup__close-button popup__close-button_type_cards"></button>
-                <form class="popup__form popup__form_type_cards" name="photo-info-form" novalidate>
-                    <h2 class="popup__header popup__header_type_cards">Новое место</h2>
-                    <input id="place-name-input" type="text" class="popup__form-item popup__form-item_type_cards popup__form-item_value_place-name" name="title" minlength=2 maxlength=30 required placeholder="Название">
-                    <span id="place-name-input-error" class="popup__form-item-error popup__form-item-error_type_cards"></span>
-                    <input id="link-input" type="url" class="popup__form-item popup__form-item_type_cards popup__form-item_value_link" name="link" required placeholder="Ссылка на картинку">
-                    <span id="link-input-error" class="popup__form-item-error popup__form-item-error_type_cards"></span>
-                    <button type="submit" class="popup__save-button popup__save-button_type_cards">Создать</button>
+                <button type="button" aria-label="close" class="popup__close-button"></button>
+                <form class="popup__form" name="photo-info-form" novalidate>
+                    <h2 class="popup__header">Новое место</h2>
+                    <input id="place-name-input" type="text" class="popup__form-item popup__form-item_value_place-name" name="title" minlength=2 maxlength=30 required placeholder="Название">
+                    <span id="place-name-input-error" class="popup__form-item-error"></span>
+                    <input id="link-input" type="url" class="popup__form-item popup__form-item_value_link" name="link" required placeholder="Ссылка на картинку">
+                    <span id="link-input-error" class="popup__form-item-error"></span>
+                    <button type="submit" class="popup__save-button">Создать</button>
                 </form>
             </div>
         </div>
 
         <div class="popup popup_image">
             <div class="popup__container">
-                <button type="button" aria-label="close" class="popup__close-button popup__close-button_type_cards"></button>
+                <button type="button" aria-label="close" class="popup__close-button"></button>
                 <img class='popup__photo' src="#" alt="описание фотографии">
                 <p class="popup__photo-name">подпись к фото</p>
             </div>
@@ -81,22 +93,10 @@
 
         <div class="popup popup_confirm">
             <div class="popup__container">
-                <button type="button" aria-label="close" class="popup__close-button popup__close-button_type_confirm"></button>
-                <form class="popup__form popup__form_type_confirm" name="confirm-form" novalidate>
-                    <h2 class="popup__header popup__header_type_confirm">Вы уверены?</h2>
-                    <button type="submit" class="popup__save-button popup__save-button_type_confirm">Да</button>
-                </form>
-            </div>
-        </div>
-
-        <div class="popup popup_avatar">
-            <div class="popup__container">
-                <button type="button" aria-label="close" class="popup__close-button popup__close-button_type_avatar"></button>
-                <form class="popup__form popup__form_type_avatar" name="avatar-form" novalidate>
-                    <h2 class="popup__header popup__header_type_avatar">Обновить аватар</h2>
-                    <input id="avatar-link-input" type="url" class="popup__form-item popup__form-item_type_avatar popup__form-item_value_link" name="link" required placeholder="Ссылка на фото">
-                    <span id="avatar-link-input-error" class="popup__form-item-error popup__form-item-error_type_avatar"></span>
-                    <button type="submit" class="popup__save-button popup__save-button_type_avatar">Сохранить</button>
+                <button type="button" aria-label="close" class="popup__close-button"></button>
+                <form class="popup__form" name="confirm-form" novalidate>
+                    <h2 class="popup__header">Вы уверены?</h2>
+                    <button type="submit" class="popup__save-button">Да</button>
                 </form>
             </div>
         </div>

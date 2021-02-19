@@ -1,6 +1,7 @@
 .popup__form-item-error {
-    display: flex;
     padding: 5px 0 0;
+    width: calc(100% - 2*20px);
+    display: flex;
     min-height: 30px;
     font-style: normal;
     font-weight: normal;
@@ -8,4 +9,10 @@
     line-height: 15px;
     color: #FF0000;
     box-sizing: border-box;
+}
+
+@media screen and (min-width: 768px) {
+    .popup__form-item-error {
+        width: calc(100% - 2*36px);
+    }
 }

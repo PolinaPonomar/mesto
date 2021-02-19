@@ -12,7 +12,7 @@ export class PopupWithConfirm extends Popup {
         this._handlerFormSubmit(this._card,this._cardId);
     }
 
-    open (card, cardId) {
+    open (card, cardId) { // Полиморфизм. Принимаем при открытии данные карточки, чтобы потом передать их в функцию отправки формы для последующего удаления данной карточки
         super.open(); // наследуем функцию от родительского класса
         this._card = card;
         this._cardId = cardId;

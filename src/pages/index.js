@@ -8,10 +8,9 @@ import { PopupWithForm } from '../components/PopupWithForm.js';
 import { PopupWithConfirm } from '../components/PopupWithConfirm.js';
 import { validationConfig, FormValidator } from '../components/FormValidator.js';
 import { UserInfo } from '../components/UserInfo.js';
-// import { initialCards } from '../utils/initial-сards.js'; // удалить файл initialCards
 import {
-    editAvatarButton,
     editProfileButton,
+    editAvatarButton,
     addButton,
     popupInputName,
     popupInputDescription,
@@ -42,27 +41,35 @@ api
     })
     .catch((err) => {
         console.log(err);
-    });
+    })
+;
 
+// Все для создания карточек
 
-// Cоздание контейнера для карточек
-const cardsList = new Section({
-    renderer: cardsRenderer
-    },
-    '.cards'
-);
+function handlerConfirmFormSubmit(card, cardId) { // функция: отправить поп-ап удаления карточки
+    api
+        .deleteCard(cardId)
+        .then( (answer) => {
+            card.remove();
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    popupWithConfirm.close();
+}
 
+// Создание поп-апов для взаимодействия с существующими карточками
 const popupWithImage = new PopupWithImage('.popup_image');
 popupWithImage.setEventListeners();
 const popupWithConfirm = new PopupWithConfirm('.popup_confirm', handlerConfirmFormSubmit);
 popupWithConfirm.setEventListeners();
 
-function cardsRenderer (item) { // функция, передающаяся в класс Section в качестве фукнкции для отрисовки: отрисовывает карточки с фото.
+function cardsRenderer (item) { // функция, передающаяся в класс Section: отрисовывает карточки с фото
     const card = new Card(
         item,
-        userInfo.getUserInfo().id, //id находится, т.к. в очереди на сервер его я получила раньше, чем кардс
+        userInfo.getUserInfo().id,
         '#card-template',
-        {handleCardClick: (link, alt, text) => { //  функция: открывает поп-ап при нажатии на карточку
+        {handleCardClick: (link, alt, text) => {
             popupWithImage.open(link, alt, text);
         },
         handleDeleteClick: (card, cardId) => {
@@ -87,38 +94,33 @@ function cardsRenderer (item) { // функция, передающаяся в �
         }
     ); 
     const cardElement = card.generateCard();
-    cardsList.addItem(cardElement); // добавляем созданную карточку в контейнер
+    // добавляем созданную карточку в контейнер
+    cardsList.addItem(cardElement);
 }
 
-function handlerConfirmFormSubmit(card, cardId) { // функция: отправить поп-ап удаления карточки
-    api
-        .deleteCard(cardId)
-        .then( (answer) => {
-            console.log(answer); // тут сообщение, что пост удален
-            card.remove();
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-    popupWithConfirm.close();
-}
+// Cоздание контейнера для карточек
+const cardsList = new Section({
+    renderer: cardsRenderer
+    },
+    '.cards'
+);
 
-// Добавление существующих на сервере карточек:
+// Добавление существующих на сервере карточек на страницу:
 api
     .getInitialCards()
     .then((data) =>{
         data.forEach(item => { // добавляю в данные подгруженных карточек alt
             item.alt = 'Фотография с подписью: ' + item.name
         });
-        //данные приходят сортированными от самого позднего поста, до самого раннего => переворачиваю массив (от раннего до позднего)
+        // данные приходят сортированными от самого позднего поста, до самого раннего => переворачиваю массив
         data.reverse()
-        //и с начала до конца каждую карточку добавляю в начало контейнера (=> самая поздняя карточка окажетсяя первой в контейнере):
-        // Отрисовка карточек по полученным данным в ранее созданный контейнер
+        // отрисовка карточек по полученным данным в ранее созданный контейнер (самая поздняя карточка окажетсяя первой в контейнере)
         cardsList.renderItems(data); // 
     })
     .catch((err) => {
         console.log(err);
-    });
+    })
+;
 
 function handleProfileFormSubmit (inputs) { // функция: отправить форму поп-апа редактирования профиля
     popupProfile.checkloading(true);
@@ -161,9 +163,9 @@ function handleCardsFormSubmit (inputs) { // функция: отправить 
     api
         .postNewCard(cardData)
         .then((data) => {
-            data.alt = 'Фотография с подписью: ' + data.name;//  на сервере не было альта, теперь есть
+            data.alt = 'Фотография с подписью: ' + data.name;
             console.log(data);
-            // Отрисовка карточки по полученным данным в ранее созданный контейнер
+            // отрисовка карточки по полученным данным в ранее созданный контейнер
             cardsList.renderItems([data]);
         })
         .catch((err) => {
@@ -178,35 +180,35 @@ function handleCardsFormSubmit (inputs) { // функция: отправить 
 //Создадим поп-апы с формами:
 const popupProfile = new PopupWithForm('.popup_profile', handleProfileFormSubmit);
 popupProfile.setEventListeners();
-const popupCards = new PopupWithForm('.popup_cards', handleCardsFormSubmit);
-popupCards.setEventListeners();
 const popupAvatar = new PopupWithForm('.popup_avatar', handleAvatarFormSubmit);
 popupAvatar.setEventListeners();
+const popupCards = new PopupWithForm('.popup_cards', handleCardsFormSubmit);
+popupCards.setEventListeners();
 
 // Подключим валидацию всем формам поп-апов
 const profileFormValidator = new FormValidator(validationConfig, popupProfileForm); 
 profileFormValidator.enableValidation();
-const cardsFormValidator = new FormValidator(validationConfig, popupCardsForm);
-cardsFormValidator.enableValidation();
 const avatarFormValidator = new FormValidator(validationConfig, popupAvatarForm);
 avatarFormValidator.enableValidation();
+const cardsFormValidator = new FormValidator(validationConfig, popupCardsForm);
+cardsFormValidator.enableValidation();
 
 // Слушатель поп-апа для редактирования профиля
 editProfileButton.addEventListener('click', function () {
     popupProfile.open();
-    popupInputName.value = userInfo.getUserInfo().name; // getUserInfo - метод класса UserInfo
+    popupInputName.value = userInfo.getUserInfo().name;
     popupInputDescription.value = userInfo.getUserInfo().description;
-    profileFormValidator.doStartValidity(); // метод класса FormValidator
-});
-
-// Слушатель поп-апа для добавления карточки
-addButton.addEventListener('click', function () {
-    popupCards.open();
-    cardsFormValidator.doStartValidity(); // метод класса FormValidator
+    profileFormValidator.doStartValidity();
 });
 
 // Слушатель поп-апа для редактирования аватара
 editAvatarButton.addEventListener('click', function () {
     popupAvatar.open();
-    avatarFormValidator.doStartValidity(); // метод класса FormValidator
+    avatarFormValidator.doStartValidity();
+});
+
+// Слушатель поп-апа для добавления карточки
+addButton.addEventListener('click', function () {
+    popupCards.open();
+    cardsFormValidator.doStartValidity();
 });

@@ -1,9 +1,0 @@
-.popup__form_type_profile {
-    width: 282px;
-}
-
-@media screen and (min-width: 768px) {
-    .popup__form_type_profile {
-        width: 430px;
-    }
-}

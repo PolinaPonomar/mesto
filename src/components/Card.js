@@ -9,8 +9,8 @@ export class Card {
         this._likedUsers = data.likes.map(item =>{ return item._id});
 
         this._accountId = accountId;
-
         this._cardSelector = cardSelector;
+
         this._handleCardClick = handleCardClick;
         this._handleDeleteClick = handleDeleteClick;
         this._handleLikeClick = handleLikeClick;
@@ -29,39 +29,27 @@ export class Card {
           .content
           .querySelector('.card')
           .cloneNode(true);
-
-        if (this._ownerId !== this._accountId) { // если карточка не моя - удаляю значок удаления
+        // если карточка не принадлежит владельцу аккаунта - убираем иконку удаления
+        if (this._ownerId !== this._accountId) {
             cardElement.querySelector('.card__delete-button').remove();
         }
         return cardElement;
     }
       
-    // _handleLikeClick () { // функция: поставить/убрать лайк
-    //     this._likeButton.classList.toggle('card__like-button_active');
-    // }
-
-    // deleteCard () { // функция: удалить карточку
-    //     this._element.remove();
-    //     // зануляем, чтобы нельзя было сослаться на эту ноду дом дерева
-    //     this._element = null;
-    // }
-
     _setEventListeners () { // функция: добавить слушатели карточке
-        //слушатель лайка
+        // слушатель лайка
         this._likeButton.addEventListener('click', () => {
             this._handleLikeClick(this._cardId, this._likeButton, this._likeСounter);
         });
-
-        // если карточка моя - вешаю слушатель удаления
-        if (this._ownerId == this._accountId) {
+        // слушатель удаления 
+        if (this._ownerId == this._accountId) { // вешается только на карточки владельца аккаунта
             this._deleteButton.addEventListener('click', () =>{
                 this._handleDeleteClick(this._element,this._cardId);
             });
         }
-
-        //слушатель клика по фото
+        // слушатель клика по фото
         this._photo.addEventListener('click', () => {
-            this._handleCardClick(this._link, this._alt, this._name); //функция, переданная в конструктор. Открывает поп-ап при нажатии на карточку
+            this._handleCardClick(this._link, this._alt, this._name);
         });
     }
 
@@ -70,13 +58,11 @@ export class Card {
         this._photo.src = this._link;
         this._photo.alt = this._alt;
         this._likeСounter.textContent = this._likesNumber;
-
-        if (this._likedUsers.some(item => {return item == this._accountId})) { // чтобы при обновлении страницы был виден мой лайк
+        // отобразить на карточке лайк владельца аккаунта, если он есть
+        if (this._likedUsers.some(item => {return item == this._accountId})) {
             this._likeButton.classList.add('card__like-button_active');
         }
-
         this._setEventListeners();
-        
         return this._element;
     }
 }

@@ -5,7 +5,7 @@ export class UserInfo {
         this._avatar = document.querySelector(avatarSelector);
     }
 
-    getUserInfo () { //функция: вернуть массив с данными пользователя со страницы
+    getUserInfo () { // функция: вернуть массив с данными пользователя со страницы
         const profileData = {
             name: this._name.textContent,
             description: this._description.textContent,
@@ -15,15 +15,15 @@ export class UserInfo {
         return profileData
     }
 
-    setUserId (id) { //функция: в информацию о пользователе добавить его id
+    setUserId (id) { // функция: в информацию о пользователе добавить его id
         this._id = id;
     }
 
-    setUserAvatar (inputAvatar) { //функция: задать аватар пользователя на странице
+    setUserAvatar (inputAvatar) { // функция: задать аватар пользователя на странице
         this._avatar.src = inputAvatar;
     }
 
-    setUserInfo (inputName, inputdescription) { //функция: задать значения данным пользователя на странице
+    setUserInfo (inputName, inputdescription) { // функция: задать значения данным пользователя на странице
         this._name.textContent = inputName;
         this._description.textContent = inputdescription;
     }

@@ -1,9 +1,0 @@
-.popup__form-item-error_type_cards{
-    width: calc(100% - 2*20px);
-}
-
-@media screen and (min-width: 768px) {
-    .popup__form-item-error_type_cards {
-        width: calc(100% - 2*36px);
-    }
-}

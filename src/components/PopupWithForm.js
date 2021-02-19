@@ -10,7 +10,7 @@ export class PopupWithForm extends Popup {
         this._startSubmitButtonText = this._submitButton.textContent;
     }
 
-    checkloading (isLoading) {
+    checkloading (isLoading) { // функция: уведомляем пользователя о процессе загрузки
         if (isLoading) {
             this._submitButton.textContent = 'Сохранение...';
         } else {
