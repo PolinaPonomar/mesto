@@ -31,18 +31,6 @@ const api = new Api({
 // Текущая информация о пользователе
 const userInfo = new UserInfo({nameSelector: '.profile__name', descriptionSelector: '.profile__description', avatarSelector: '.profile__avatar'});
 
-// Загрузка информации о пользователе с сервера
-api
-    .getUserInfo()
-    .then((data) => {
-        userInfo.setUserInfo(data.name,data.about);
-        userInfo.setUserAvatar(data.avatar);
-        userInfo.setUserId(data._id);
-    })
-    .catch((err) => {
-        console.log(err);
-    })
-;
 
 // Все для создания карточек
 
@@ -105,20 +93,27 @@ const cardsList = new Section({
     '.cards'
 );
 
-// Добавление существующих на сервере карточек на страницу:
-api
-    .getInitialCards()
-    .then((data) =>{
-        data.forEach(item => { // добавляю в данные подгруженных карточек alt
-            item.alt = 'Фотография с подписью: ' + item.name
-        });
-        // данные приходят сортированными от самого позднего поста, до самого раннего => переворачиваю массив
-        data.reverse()
-        // отрисовка карточек по полученным данным в ранее созданный контейнер (самая поздняя карточка окажетсяя первой в контейнере)
-        cardsList.renderItems(data); // 
-    })
-    .catch((err) => {
-        console.log(err);
+// Загрузка информации о пользователе, а также его постов с сервера
+
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+  .then(([dataUserInfo, dataCards])=>{
+
+    // Добавление информации о пользователе с сервера на страницу:
+    userInfo.setUserInfo(dataUserInfo.name,dataUserInfo.about);
+    userInfo.setUserAvatar(dataUserInfo.avatar);
+    userInfo.setUserId(dataUserInfo._id);
+
+    // Добавление существующих на сервере карточек на страницу:
+    dataCards.forEach(item => { // добавляю в данные подгруженных карточек alt
+        item.alt = 'Фотография с подписью: ' + item.name
+    });
+    // данные приходят сортированными от самого позднего поста, до самого раннего => переворачиваю массив
+    dataCards.reverse();
+    // отрисовка карточек по полученным данным в ранее созданный контейнер (самая поздняя карточка окажетсяя первой в контейнере)
+    cardsList.renderItems(dataCards);
+  })
+  .catch((err) => {
+    console.log(err);
     })
 ;
 

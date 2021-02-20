@@ -1,33 +1,33 @@
-const onError = (res)=>{
-    if(res.ok){
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`)
-};
-
 export class Api {
     constructor(config) {
         this._url = config.url;
         this.headers = config.headers;
     }
+    
+    _onError (res) {
+        if(res.ok){
+          return res.json();
+        }
+        return Promise.reject(`Ошибка: ${res.status}`)
+    }
 
-    getUserInfo() {
+    getUserInfo () {
         return fetch(`${this._url}users/me`, {
             method: 'GET',
             headers: this.headers
         })
-        .then(onError)
+        .then(this._onError)
     }
 
-    getInitialCards() {
+    getInitialCards () {
         return fetch(`${this._url}cards`, {
             method: 'GET',
             headers: this.headers
         })
-        .then(onError)
+        .then(this._onError)
     }
 
-    renewUserInfo(inputs) {
+    renewUserInfo (inputs) {
         return fetch(`${this._url}users/me`, {
             method: 'PATCH',
             headers: this.headers,
@@ -36,10 +36,10 @@ export class Api {
                 about: inputs.description
             })
         })
-        .then(onError)
+        .then(this._onError)
     }
 
-    postNewCard(cardData) {
+    postNewCard (cardData) {
         return fetch(`${this._url}cards`, {
             method: 'POST',
             headers: this.headers,
@@ -49,15 +49,15 @@ export class Api {
                 alt: cardData.alt
             })
         })
-        .then(onError)
+        .then(this._onError)
     }
 
-    deleteCard(cardId) {
+    deleteCard (cardId) {
         return fetch(`${this._url}cards/${cardId}`, {
             method: 'DELETE',
             headers: this.headers,
         })
-        .then(onError)
+        .then(this._onError)
     }
 
     putLike (cardId) {
@@ -65,7 +65,7 @@ export class Api {
             method: 'PUT',
             headers: this.headers,
         })
-        .then(onError)
+        .then(this._onError)
     }
 
     deleteLike (cardId) {
@@ -73,7 +73,7 @@ export class Api {
             method: 'DELETE',
             headers: this.headers,
         })
-        .then(onError)
+        .then(this._onError)
     }
 
     changeAvatar (inputAvatar) {
@@ -84,6 +84,6 @@ export class Api {
                 avatar: inputAvatar
             })
         })
-        .then(onError)
+        .then(this._onError)
     }
 }
