@@ -43,5 +43,6 @@ git clone https://github.com/PolinaPonomar/mesto.git
 ```
 npm run dev
 ```
-3) Проект откроется по адресу: http://localhost:8080
-4) Готово!
+3) Проект откроется на локальном сервере по адресу: http://localhost:8080
+4) Чтобы завершить выполнение локального сервера нажмите Ctrl + C (Win) или Cmd + T (macOS) или Ctrl + T (Linux). Подтвердите действие.
+5) Готово!
